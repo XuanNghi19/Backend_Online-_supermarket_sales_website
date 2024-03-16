@@ -7,6 +7,7 @@ import lombok.*;
 @Entity
 @Table(name = "statistics")
 @Data
+@EqualsAndHashCode(callSuper=true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Statistic extends BaseEntity{

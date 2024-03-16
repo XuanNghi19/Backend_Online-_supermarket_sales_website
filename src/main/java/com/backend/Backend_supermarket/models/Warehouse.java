@@ -7,6 +7,7 @@ import lombok.*;
 @Entity
 @Table(name = "warehouses")
 @Data
+@EqualsAndHashCode(callSuper=true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Warehouse extends BaseEntity{

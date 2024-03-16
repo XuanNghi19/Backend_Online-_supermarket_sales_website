@@ -7,6 +7,7 @@ import lombok.*;
 @Entity
 @Table(name = "comments")
 @Data
+@EqualsAndHashCode(callSuper=true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment extends BaseEntity {

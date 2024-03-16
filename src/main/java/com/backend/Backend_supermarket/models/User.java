@@ -10,6 +10,7 @@ import com.backend.Backend_supermarket.dto.UserDTO;
 @Entity
 @Table(name = "users")
 @Data
+@EqualsAndHashCode(callSuper=true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

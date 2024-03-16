@@ -8,6 +8,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "orders")
 @Data
+@EqualsAndHashCode(callSuper=true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order extends BaseEntity{
