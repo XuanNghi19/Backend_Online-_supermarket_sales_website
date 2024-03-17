@@ -1,6 +1,7 @@
 package com.backend.Backend_supermarket.dto;
 
-import com.backend.Backend_supermarket.models.Product;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.Min;
@@ -32,7 +33,7 @@ public class ProductDTO {
     private String description;
 
     @JsonProperty("image_url")
-    private String imageUrl;
+    private List<String> imageUrl;
 
     @Min(value = 1)
     @JsonProperty("quantity")

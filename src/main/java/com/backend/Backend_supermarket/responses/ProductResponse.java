@@ -1,5 +1,7 @@
 package com.backend.Backend_supermarket.responses;
 
+import java.util.List;
+
 import com.backend.Backend_supermarket.models.Product;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -26,18 +28,18 @@ public class ProductResponse {
     private String description;
 
     @JsonProperty("image_url")
-    private String imageUrl;
+    private List<String> imageUrl;
 
     @JsonProperty("quantity")
     private int quantity;
 
-    public static ProductResponse fromProduct(Product product){
+    public static ProductResponse fromProduct(Product product, List<String> productImages){
         return ProductResponse.builder()
             .productName(product.getProductName())
             .price(product.getPrice())
             .categoryId(product.getCategory().getId())
             .description(product.getDescription())
-            .imageUrl(product.getImageUrl())
+            .imageUrl(productImages)
             .quantity(product.getQuantity())
             .build();
     }

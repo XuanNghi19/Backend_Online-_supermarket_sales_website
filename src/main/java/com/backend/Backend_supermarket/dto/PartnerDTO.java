@@ -1,6 +1,5 @@
 package com.backend.Backend_supermarket.dto;
 
-import com.backend.Backend_supermarket.models.Partner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.Min;

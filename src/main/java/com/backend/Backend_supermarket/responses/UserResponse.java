@@ -2,13 +2,9 @@ package com.backend.Backend_supermarket.responses;
 
 import java.sql.Date;
 
-import com.backend.Backend_supermarket.dto.UserDTO;
 import com.backend.Backend_supermarket.models.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -29,9 +29,6 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "image_url")
-    private String imageUrl;
-
     @Column(name = "quantity")
     private int quantity;
 
@@ -41,7 +38,6 @@ public class Product {
             .price(productDto.getPrice())
             .category(category)
             .description(productDto.getDescription())
-            .imageUrl(productDto.getImageUrl())
             .quantity(productDto.getQuantity())
             .build();
     }

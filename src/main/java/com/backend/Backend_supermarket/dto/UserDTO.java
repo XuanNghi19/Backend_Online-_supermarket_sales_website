@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
-import com.backend.Backend_supermarket.models.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.Email;

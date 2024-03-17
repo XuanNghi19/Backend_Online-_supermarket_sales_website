@@ -1,5 +1,7 @@
 package com.backend.Backend_supermarket.models;
 
+import com.backend.Backend_supermarket.dto.CategoryDTO;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,10 +10,22 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "category_name")
     private String categoryName;
+
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    public static Category fromCategoryDTO(CategoryDTO categoryDTO){
+        return Category.builder()
+            .categoryName(categoryDTO.getCategoryName())
+            .imageUrl(categoryDTO.getImageUrl())
+            .build();
+    }
 }
