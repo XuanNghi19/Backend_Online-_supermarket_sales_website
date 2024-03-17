@@ -14,4 +14,6 @@ public class Category {
     private Long id;
     @Column(name = "category_name")
     private String categoryName;
+    @Column(name = "image_url")
+    private String imageUrl;
 }
