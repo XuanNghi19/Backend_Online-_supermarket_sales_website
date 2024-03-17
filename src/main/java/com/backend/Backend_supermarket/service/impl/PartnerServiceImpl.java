@@ -1,7 +1,7 @@
 package com.backend.Backend_supermarket.service.impl;
 
-import com.backend.Backend_supermarket.dto.PartnerDTO;
 import com.backend.Backend_supermarket.repository.PartnerRepository;
+import com.backend.Backend_supermarket.responses.PartnerResponse;
 import com.backend.Backend_supermarket.service.PartnerService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,10 +18,10 @@ public class PartnerServiceImpl implements PartnerService{
     private final PartnerRepository partnerRepository;
 
     @Override
-    public List<PartnerDTO> getAllPartner() {
+    public List<PartnerResponse> getAllPartner() {
         return partnerRepository.findAll()
                 .stream()
-                .map(PartnerDTO::fromPartner)
+                .map(PartnerResponse::fromPartner)
                 .collect(Collectors.toList());
     }
 }

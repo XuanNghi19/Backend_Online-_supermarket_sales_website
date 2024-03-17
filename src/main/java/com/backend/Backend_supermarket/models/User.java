@@ -51,7 +51,6 @@ public class User extends BaseEntity {
             .address(userDto.getAddress())
             .dateOfBirth(userDto.getDateOfBirth())
             .fullName(userDto.getFullName())
-            .active(userDto.getActive())
             .build();
     }
 }

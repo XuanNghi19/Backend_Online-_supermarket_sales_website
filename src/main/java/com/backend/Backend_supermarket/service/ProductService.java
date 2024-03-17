@@ -1,8 +1,9 @@
 package com.backend.Backend_supermarket.service;
 
-import com.backend.Backend_supermarket.dto.ProductDTO;
+import com.backend.Backend_supermarket.responses.ProductResponse;
+
 import java.util.List;
 
 public interface ProductService {
-    public List<ProductDTO> getAllProduct();
+    public List<ProductResponse> getAllProduct();
 } 

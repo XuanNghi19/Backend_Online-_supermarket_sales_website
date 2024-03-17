@@ -42,19 +42,4 @@ public class UserDTO {
 
     @JsonProperty("fullname")
     private String fullName;
-
-    @JsonProperty("active")
-    private Boolean active; 
-
-    public static UserDTO fromUser(User user){
-        return UserDTO.builder()
-            .email(user.getEmail())
-            .password(user.getPassword())
-            .phoneNumber(user.getPhoneNumber())
-            .address(user.getAddress())
-            .dateOfBirth(user.getDateOfBirth())
-            .fullName(user.getFullName())
-            .active(user.getActive())
-            .build();
-    }
 } 
