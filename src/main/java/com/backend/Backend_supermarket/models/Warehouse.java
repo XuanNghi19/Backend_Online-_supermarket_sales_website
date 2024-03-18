@@ -23,6 +23,7 @@ public class Warehouse extends BaseEntity{
     @JoinColumn(name = "partner_id")
     private Partner partner;
 
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
