@@ -1,13 +1,13 @@
-package com.backend.Backend_supermarket.service.impl;
+package com.backend.Backend_supermarket.services.impl;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.backend.Backend_supermarket.dto.CategoryDTO;
+import com.backend.Backend_supermarket.dtos.CategoryDTO;
 import com.backend.Backend_supermarket.models.Category;
-import com.backend.Backend_supermarket.repository.CategoryRepository;
-import com.backend.Backend_supermarket.service.CategoryService;
+import com.backend.Backend_supermarket.repositorys.CategoryRepository;
+import com.backend.Backend_supermarket.services.CategoryService;
 
 import lombok.RequiredArgsConstructor;
 

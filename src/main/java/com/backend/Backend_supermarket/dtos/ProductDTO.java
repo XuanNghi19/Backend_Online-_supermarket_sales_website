@@ -1,11 +1,10 @@
-package com.backend.Backend_supermarket.dto;
+package com.backend.Backend_supermarket.dtos;
 
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,16 +23,13 @@ public class ProductDTO {
     @JsonProperty("price")
     private float price;
 
-    @NotBlank
+    @NotNull
     @Min(value = 1)
     @JsonProperty("category_id")
     private Long categoryId;
 
     @JsonProperty("description")
     private String description;
-
-    @JsonProperty("image_url")
-    private List<String> imageUrl;
 
     @Min(value = 1)
     @JsonProperty("quantity")

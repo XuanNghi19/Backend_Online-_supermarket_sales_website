@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import java.sql.Date;
 
-import com.backend.Backend_supermarket.dto.UserDTO;
+import com.backend.Backend_supermarket.dtos.UserDTO;
 
 @Entity
 @Table(name = "users")

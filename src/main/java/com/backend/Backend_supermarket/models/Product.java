@@ -1,6 +1,6 @@
 package com.backend.Backend_supermarket.models;
 
-import com.backend.Backend_supermarket.dto.ProductDTO;
+import com.backend.Backend_supermarket.dtos.ProductDTO;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +20,7 @@ public class Product {
     private String productName;
 
     @Column(name = "price")
-    private float price ;
+    private Float price ;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

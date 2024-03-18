@@ -1,4 +1,4 @@
-package com.backend.Backend_supermarket.repository;
+package com.backend.Backend_supermarket.repositorys;
 
 import com.backend.Backend_supermarket.models.Product;
 

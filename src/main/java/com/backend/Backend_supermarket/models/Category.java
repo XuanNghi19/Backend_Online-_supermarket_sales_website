@@ -1,6 +1,6 @@
 package com.backend.Backend_supermarket.models;
 
-import com.backend.Backend_supermarket.dto.CategoryDTO;
+import com.backend.Backend_supermarket.dtos.CategoryDTO;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,6 +1,6 @@
 package com.backend.Backend_supermarket.models;
 
-import com.backend.Backend_supermarket.dto.ProductImageDTO;
+import com.backend.Backend_supermarket.dtos.ProductImageDTO;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,7 +16,7 @@ public class ProductImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
     

@@ -1,8 +1,8 @@
-package com.backend.Backend_supermarket.service.impl;
+package com.backend.Backend_supermarket.services.impl;
 
-import com.backend.Backend_supermarket.repository.PartnerRepository;
+import com.backend.Backend_supermarket.repositorys.PartnerRepository;
 import com.backend.Backend_supermarket.responses.PartnerResponse;
-import com.backend.Backend_supermarket.service.PartnerService;
+import com.backend.Backend_supermarket.services.PartnerService;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.backend.Backend_supermarket.dto;
+package com.backend.Backend_supermarket.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

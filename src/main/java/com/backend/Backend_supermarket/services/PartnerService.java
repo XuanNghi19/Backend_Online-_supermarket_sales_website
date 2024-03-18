@@ -1,4 +1,4 @@
-package com.backend.Backend_supermarket.service;
+package com.backend.Backend_supermarket.services;
 
 import java.util.List;
 import com.backend.Backend_supermarket.responses.PartnerResponse;

@@ -1,14 +1,14 @@
-package com.backend.Backend_supermarket.service.impl;
+package com.backend.Backend_supermarket.services.impl;
 
-import com.backend.Backend_supermarket.dto.ProductDTO;
+import com.backend.Backend_supermarket.dtos.ProductDTO;
 import com.backend.Backend_supermarket.models.Category;
 import com.backend.Backend_supermarket.models.Product;
 import com.backend.Backend_supermarket.models.ProductImage;
-import com.backend.Backend_supermarket.repository.CategoryRepository;
-import com.backend.Backend_supermarket.repository.ProductImageRepository;
-import com.backend.Backend_supermarket.repository.ProductRepository;
+import com.backend.Backend_supermarket.repositorys.CategoryRepository;
+import com.backend.Backend_supermarket.repositorys.ProductImageRepository;
+import com.backend.Backend_supermarket.repositorys.ProductRepository;
 import com.backend.Backend_supermarket.responses.ProductResponse;
-import com.backend.Backend_supermarket.service.ProductService;
+import com.backend.Backend_supermarket.services.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -104,6 +104,7 @@ public class ProductServiceImpl implements ProductService{
                     .toList();
                 return ProductResponse.fromProduct(product, productImages);
     }
+
 
     @Override
     public ProductImage createProductImageWithProductId(Long productId, String imageUrl) throws Exception {
