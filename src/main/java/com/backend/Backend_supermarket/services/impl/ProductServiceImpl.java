@@ -104,16 +104,4 @@ public class ProductServiceImpl implements ProductService{
                     .toList();
                 return ProductResponse.fromProduct(product, productImages);
     }
-
-
-    @Override
-    public ProductImage createProductImageWithProductId(Long productId, String imageUrl) throws Exception {
-        Product product = productRepository.findById(productId)
-            .orElseThrow(() -> new Exception("Không tồn tại sản phẩm với id là : " + productId));
-        ProductImage newProductImage = ProductImage.builder()
-            .product(product)
-            .imageUrl(imageUrl)
-            .build();
-        return productImageRepository.save(newProductImage);
-    }
 }
