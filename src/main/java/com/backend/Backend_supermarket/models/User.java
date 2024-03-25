@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import java.sql.Date;
 
-import com.backend.Backend_supermarket.dto.UserDTO;
+import com.backend.Backend_supermarket.dtos.UserDTO;
 
 @Entity
 @Table(name = "users")
@@ -52,7 +52,6 @@ public class User extends BaseEntity {
             .address(userDto.getAddress())
             .dateOfBirth(userDto.getDateOfBirth())
             .fullName(userDto.getFullName())
-            .active(userDto.getActive())
             .build();
     }
 }

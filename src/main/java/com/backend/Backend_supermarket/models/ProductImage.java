@@ -1,6 +1,7 @@
 package com.backend.Backend_supermarket.models;
 
-import com.backend.Backend_supermarket.dto.ProductImageDTO;
+import com.backend.Backend_supermarket.dtos.ProductImageDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,10 +13,12 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ProductImage {
+    public static final int MAXIMUM_IMAGES = 3;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

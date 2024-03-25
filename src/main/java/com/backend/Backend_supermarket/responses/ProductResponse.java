@@ -1,10 +1,10 @@
-package com.backend.Backend_supermarket.dto;
+package com.backend.Backend_supermarket.responses;
+
+import java.util.List;
 
 import com.backend.Backend_supermarket.models.Product;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,17 +14,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductDTO {
-
+public class ProductResponse {
     @JsonProperty("product_name")
     private String productName;
 
-    @Min(value = 0, message = "Giá của sản phẩm phải >= 0")
     @JsonProperty("price")
     private float price;
 
-    @NotBlank
-    @Min(value = 1)
     @JsonProperty("category_id")
     private Long categoryId;
 
@@ -32,19 +28,18 @@ public class ProductDTO {
     private String description;
 
     @JsonProperty("image_url")
-    private String imageUrl;
+    private List<String> imageUrl;
 
-    @Min(value = 1)
     @JsonProperty("quantity")
     private int quantity;
 
-    public static ProductDTO fromProduct(Product product){
-        return ProductDTO.builder()
+    public static ProductResponse fromProduct(Product product, List<String> productImages){
+        return ProductResponse.builder()
             .productName(product.getProductName())
             .price(product.getPrice())
             .categoryId(product.getCategory().getId())
             .description(product.getDescription())
-            .imageUrl(product.getImageUrl())
+            .imageUrl(productImages)
             .quantity(product.getQuantity())
             .build();
     }
