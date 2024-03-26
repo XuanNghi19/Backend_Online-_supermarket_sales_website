@@ -14,15 +14,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductImageResponse {
 
-    @JsonProperty("product_id")
-    private Long productId;
+    @JsonProperty("id")
+    private Long id;
 
     @JsonProperty("image_url")
     private String imageUrl;
 
     public static ProductImageResponse fromProductImage(ProductImage productImage){
         return ProductImageResponse.builder()
-            .productId(productImage.getProduct().getId())
+            .id(productImage.getId())
             .imageUrl(productImage.getImageUrl())
             .build();
     }

@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface ProductImageRepository extends JpaRepository<ProductImage, Long> {
     List<ProductImage> findByProductId(Long productId);
     Optional<ProductImage> findByImageUrl(String imageUrl);
+    void deleteByImageUrl(String imageUrl);
 }

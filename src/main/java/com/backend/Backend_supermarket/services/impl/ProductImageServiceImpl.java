@@ -57,6 +57,7 @@ public class ProductImageServiceImpl implements ProductImageService {
         }
         Path destination = Paths.get(uploadDir.toString(), imageUrl);
         Files.deleteIfExists(destination);
+        productImageRepository.deleteByImageUrl(imageUrl);
     }
 
     @Override
