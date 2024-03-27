@@ -5,12 +5,15 @@ import lombok.*;
 
 import java.sql.Date;
 
+import com.backend.Backend_supermarket.dtos.OrderDTO;
+
 @Entity
 @Table(name = "orders")
 @Data
 @EqualsAndHashCode(callSuper=true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Order extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,4 +46,14 @@ public class Order extends BaseEntity{
 
     @Column(name = "active")
     private Boolean active;
+
+    public static Order fromOrderDTO(OrderDTO orderDTO, User user){
+        return Order.builder()
+            .user(user)
+            .paymentMethod(orderDTO.getPaymentMethod())
+            .paymentStatus(orderDTO.getPaymentStatus())
+            .shippingAddress(orderDTO.getShippingAddress())
+            .shippingDate(orderDTO.getShippingDate())
+            .build();
+    }
 }
