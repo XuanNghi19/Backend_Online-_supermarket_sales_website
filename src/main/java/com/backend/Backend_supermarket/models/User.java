@@ -38,6 +38,9 @@ public class User extends BaseEntity {
     @Column(name = "full_name")
     private String fullName;
 
+    @Column(name = "avatar")
+    private String avatar;
+
     @Column(name = "role")
     private String role;
     
@@ -52,6 +55,8 @@ public class User extends BaseEntity {
             .address(userDto.getAddress())
             .dateOfBirth(userDto.getDateOfBirth())
             .fullName(userDto.getFullName())
+            .avatar(userDto.getAvatar())
+            .role(userDto.getRole())
             .build();
     }
 }

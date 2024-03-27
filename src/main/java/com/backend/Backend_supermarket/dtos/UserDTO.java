@@ -1,5 +1,7 @@
 package com.backend.Backend_supermarket.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,38 +9,42 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class UserDTO {
-
+    @NotNull
     @Email
     @JsonProperty("email")
     private String email;
 
+    @NotNull
     @NotBlank
-    @Min(value = 3, message = "Mật khẩu tối thiểu là 3 kí tự")
-    @JsonProperty("password") 
+    @Size(min = 3, message = "Mật khẩu tối thiểu là 3 kí tự")
+    @JsonProperty("password")
     private String password;
 
+    @NotNull
     @NotBlank
-    @Min(value = 8, message = "Số điện tối thiểu là 8 số")
+    @Pattern(regexp = "\\d{8,}", message = "Số điện tối thiểu là 8 số")
     @JsonProperty("phone_number")
     private String phoneNumber;
 
+    @NotNull
     @JsonProperty("address")
     private String address;
 
     @JsonProperty("date_of_birth")
     private Date dateOfBirth;
 
-    @JsonProperty("fullname")
+    @NotNull
+    @JsonProperty("full_name")
     private String fullName;
-} 
+
+    @JsonProperty("avatar")
+    private String avatar;
+
+    @JsonProperty("role")
+    private String role;
+}

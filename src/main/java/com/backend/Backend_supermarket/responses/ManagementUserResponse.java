@@ -1,26 +1,27 @@
 package com.backend.Backend_supermarket.responses;
 
-import java.sql.Date;
-
 import com.backend.Backend_supermarket.models.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponse {
-
+public class ManagementUserResponse {
     @JsonProperty("id")
     private Long id;
 
     @JsonProperty("email")
     private String email;
+
+    @JsonProperty("password")
+    private String password;
 
     @JsonProperty("phone_number")
     private String phoneNumber;
@@ -44,10 +45,11 @@ public class UserResponse {
     private Boolean active;
 
     // cho admin
-    public static UserResponse fromUser(User user) {
-        return UserResponse.builder()
+    public static ManagementUserResponse fromUser(User user) {
+        return ManagementUserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
+                .password(user.getPassword())
                 .phoneNumber(user.getPhoneNumber())
                 .address(user.getAddress())
                 .dateOfBirth(user.getDateOfBirth())
@@ -57,5 +59,4 @@ public class UserResponse {
                 .active(user.getActive())
                 .build();
     }
-
 }
