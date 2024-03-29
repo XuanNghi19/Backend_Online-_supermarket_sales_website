@@ -20,7 +20,7 @@ public class User extends BaseEntity {
     private Long id;
 
     @Email(message = "Email không hợp lệ!")
-    @Column(name = "email", nullable = false, unique = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password")
