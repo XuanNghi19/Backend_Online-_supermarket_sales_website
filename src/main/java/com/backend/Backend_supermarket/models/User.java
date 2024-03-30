@@ -4,8 +4,16 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.backend.Backend_supermarket.dtos.UserDTO;
+import com.backend.Backend_supermarket.enums.Role;
 
 @Entity
 @Table(name = "users")
@@ -14,7 +22,7 @@ import com.backend.Backend_supermarket.dtos.UserDTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User extends BaseEntity {
+public class User extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,7 +47,7 @@ public class User extends BaseEntity {
     private String fullName;
 
     @Column(name = "role")
-    private String role;
+    private Role role;
     
     @Column(name = "active")
     private Boolean active;
@@ -53,5 +61,37 @@ public class User extends BaseEntity {
             .dateOfBirth(userDto.getDateOfBirth())
             .fullName(userDto.getFullName())
             .build();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        return authorities;    
+    }
+
+    @Override
+    public String getUsername() {
+        return phoneNumber;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

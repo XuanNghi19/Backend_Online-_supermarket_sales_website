@@ -12,9 +12,6 @@ import lombok.Data;
 @Data
 @Builder
 public class OrderResponse {
-    @JsonProperty("user_id")
-    private Long userId;
-
     @JsonProperty("payment_method")
     private String paymentMethod;
 
