@@ -18,9 +18,6 @@ public class UserResponse {
     @JsonProperty("email")
     private String email;
 
-    @JsonProperty("password") 
-    private String password;
-
     @JsonProperty("phone_number")
     private String phoneNumber;
 
@@ -39,7 +36,6 @@ public class UserResponse {
     public static UserResponse fromUser(User user){
         return UserResponse.builder()
             .email(user.getEmail())
-            .password(user.getPassword())
             .phoneNumber(user.getPhoneNumber())
             .address(user.getAddress())
             .dateOfBirth(user.getDateOfBirth())

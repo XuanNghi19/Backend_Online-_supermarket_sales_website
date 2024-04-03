@@ -36,6 +36,11 @@ public class WebSecurityConfig {
                         String.format("%s/products**", apiPrefix),
                         String.format("%s/products", apiPrefix)
                     ).permitAll()
+                    .requestMatchers(
+                        HttpMethod.POST,
+                        String.format("%s/users/register", apiPrefix),
+                        String.format("%s/users/login", apiPrefix)
+                    ).permitAll()
                     .anyRequest().authenticated();
             });
         return http.build();

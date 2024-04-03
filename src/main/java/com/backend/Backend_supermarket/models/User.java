@@ -28,13 +28,13 @@ public class User extends BaseEntity implements UserDetails {
     private Long id;
 
     @Email(message = "Email không hợp lệ!")
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email")
     private String email;
 
     @Column(name = "password")
     private String password;
 
-    @Column(name = "phoneNumber")
+    @Column(name = "phoneNumber", unique = true, nullable = false)
     private String phoneNumber;
 
     @Column(name = "address")
@@ -55,7 +55,6 @@ public class User extends BaseEntity implements UserDetails {
     public static User fromUserDTO(UserDTO userDto){
         return User.builder()
             .email(userDto.getEmail())
-            .password(userDto.getPassword())
             .phoneNumber(userDto.getPhoneNumber())
             .address(userDto.getAddress())
             .dateOfBirth(userDto.getDateOfBirth())
