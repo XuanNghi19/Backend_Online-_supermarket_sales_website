@@ -55,9 +55,12 @@ public class UserServiceImpl implements UserService{
         User existingUser = userRepository.findByPhoneNumber(phoneNumber)
             .orElseThrow(() -> new Exception("Thông tin đăng nhập không chính xác!"));
         
-        if(passwordEncoder.matches( password, existingUser.getPassword()) && existingUser.getActive()){
-            String token = jwtTokenUtils.generateToken(existingUser);
-            return token;
+        if(passwordEncoder.matches( password, existingUser.getPassword())){
+            if(existingUser.getActive()){
+                String token = jwtTokenUtils.generateToken(existingUser);
+                return token;
+            }
+            throw new Exception("Tài khoản đã bị khóa!");
         }
         throw new Exception("Thông tin đăng nhập không chính xác!");
     }
@@ -86,6 +89,22 @@ public class UserServiceImpl implements UserService{
             existingUser.get().setActive(false);
             userRepository.save(existingUser.get());
         }
+    }
+
+    @Override
+    public UserResponse getUserDetail(String token) throws Exception {
+        
+        if(jwtTokenUtils.isTokenExpired(token)){
+            throw new Exception("Token đã hết hạn!");
+        }
+
+        String phoneNumber = jwtTokenUtils.extractPhoneNumber(token);
+
+        Optional<User> existingUser = userRepository.findByPhoneNumber(phoneNumber);
+        if(!existingUser.isPresent()){
+            throw new Exception("Không tìm thấy user với token!");
+        }
+        return UserResponse.fromUser(existingUser.get());
     }
 
 }

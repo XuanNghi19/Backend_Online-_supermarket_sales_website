@@ -11,4 +11,5 @@ public interface UserService {
     UserResponse updateUser(Long id, UserDTO userDTO)  throws Exception;
     void deleteUser(Long id);
     String login(String phoneNumber, String password) throws Exception;
+    UserResponse getUserDetail(String token) throws Exception;
 }

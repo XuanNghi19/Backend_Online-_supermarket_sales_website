@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,6 +67,32 @@ public class UserController {
             }
             String token = userService.login(loginDTO.getPhoneNumber(), loginDTO.getPassword());
             return ResponseEntity.ok().body(token);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{token}")
+
+    public ResponseEntity<?> getUserDetail(
+        @PathVariable("token") String token,
+        BindingResult result
+    ){
+        try {
+            if(result.hasErrors()){
+                // lấy ra danh sách lỗi
+                List<String> errorMessages = result.getFieldErrors()
+                        .stream()
+                        .map(FieldError::getDefaultMessage)
+                        .toList();
+                // trả về danh sách lỗi
+                return ResponseEntity.badRequest().body(errorMessages);
+            }
+
+            token = token.substring(7);
+            UserResponse response = userService.getUserDetail(token);
+            return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.badRequest().body(e.getMessage());
