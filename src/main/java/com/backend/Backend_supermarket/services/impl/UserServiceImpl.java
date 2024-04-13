@@ -8,6 +8,7 @@ import com.backend.Backend_supermarket.repositorys.UserRepository;
 import com.backend.Backend_supermarket.responses.UserResponse;
 import com.backend.Backend_supermarket.services.UserService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService{
                 .toList();
     }
 
+    @Transactional
     @Override
     public UserResponse register(UserDTO userDTO) throws Exception {
 

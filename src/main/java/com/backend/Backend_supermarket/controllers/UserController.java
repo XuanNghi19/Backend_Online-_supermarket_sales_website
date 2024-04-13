@@ -2,18 +2,19 @@ package com.backend.Backend_supermarket.controllers;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.Backend_supermarket.dtos.LoginDTO;
 import com.backend.Backend_supermarket.dtos.UserDTO;
+import com.backend.Backend_supermarket.responses.ResponseData;
 import com.backend.Backend_supermarket.responses.UserResponse;
 import com.backend.Backend_supermarket.services.UserService;
 
@@ -28,7 +29,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(
+    public ResponseData<?> register(
         @RequestBody @Valid UserDTO userDTO,
         BindingResult result
     ){
@@ -40,18 +41,18 @@ public class UserController {
                         .map(FieldError::getDefaultMessage)
                         .toList();
                 // trả về danh sách lỗi
-                return ResponseEntity.badRequest().body(errorMessages);
+                return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), errorMessages.toString());
             }
             UserResponse response = userService.register(userDTO);
-            return ResponseEntity.ok().body(response);
+            return new ResponseData<>(HttpStatus.CREATED.value(), "Register successfully",response);
         } catch (Exception e) {
             // TODO: handle exception
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), e.getMessage());
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(
+    public ResponseData<?> login(
         @RequestBody @Valid LoginDTO loginDTO,
         BindingResult result
     ){
@@ -63,39 +64,31 @@ public class UserController {
                         .map(FieldError::getDefaultMessage)
                         .toList();
                 // trả về danh sách lỗi
-                return ResponseEntity.badRequest().body(errorMessages);
+                return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), errorMessages.toString());
+                // return ResponseEntity.badRequest().body(errorMessages);
             }
             String token = userService.login(loginDTO.getPhoneNumber(), loginDTO.getPassword());
-            return ResponseEntity.ok().body(token);
+            // return ResponseEntity.ok().body(token);
+            return new ResponseData<>(HttpStatus.OK.value(), "Login successfully",token);
         } catch (Exception e) {
             // TODO: handle exception
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+            // return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @GetMapping("/{token}")
+    @GetMapping("/details")
 
-    public ResponseEntity<?> getUserDetail(
-        @PathVariable("token") String token,
-        BindingResult result
+    public ResponseData<?> getUserDetail(
+        @RequestHeader("Authorization") String authorizationHeader
     ){
         try {
-            if(result.hasErrors()){
-                // lấy ra danh sách lỗi
-                List<String> errorMessages = result.getFieldErrors()
-                        .stream()
-                        .map(FieldError::getDefaultMessage)
-                        .toList();
-                // trả về danh sách lỗi
-                return ResponseEntity.badRequest().body(errorMessages);
-            }
-
-            token = token.substring(7);
+            String token = authorizationHeader.substring(7);
             UserResponse response = userService.getUserDetail(token);
-            return ResponseEntity.ok().body(response);
+            return new ResponseData<>(HttpStatus.OK.value(), "Get user successfully",response);
         } catch (Exception e) {
             // TODO: handle exception
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), e.getMessage());
         }
     }
 }
