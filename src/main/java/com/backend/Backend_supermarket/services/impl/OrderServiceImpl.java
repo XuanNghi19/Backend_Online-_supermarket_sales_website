@@ -36,11 +36,13 @@ public class OrderServiceImpl implements OrderService{
             .orElseThrow(() -> new Exception("Người dùng không tồn tại"));
         Order order = Order.fromOrderDTO(orderDTO, user);
         order.setActive(true);
+        order.setStatus("Đang xử lý");
         orderRepository.save(order);
 
         OrderResponse response = OrderResponse.fromOrder(order);
 
         List<OrderDetailResponse> orderDetailResponses = new ArrayList<>(); 
+        Float totalMoney = 0f;
         for(OrderDetailDTO orderDetailDTO : orderDTO.getOrderDetails()){
             Product product = productRepository.findById(orderDetailDTO.getProductId())
                 .orElseThrow(() -> new Exception("Không tồn tại sản phẩm"));
@@ -53,11 +55,14 @@ public class OrderServiceImpl implements OrderService{
                 .numberOfProducts(orderDetailDTO.getNumberOfProducts())
                 .totalPrice(product.getPrice() * orderDetailDTO.getNumberOfProducts())
                 .build();
+            totalMoney += orderDetail.getTotalPrice();
             orderDetailRepository.save(orderDetail);
             product.setQuantity(product.getQuantity() - orderDetailDTO.getNumberOfProducts());
+            productRepository.save(product);
             orderDetailResponses.add(OrderDetailResponse.fromOrderDetail(orderDetail));
         }
         response.setOrderDetails(orderDetailResponses);
+        response.setTotalMoney(totalMoney);
         return response;
     }
 

@@ -68,7 +68,7 @@ public class ProductController {
         @RequestParam(name = "limit", defaultValue = "10") int limit
     ){
         try {
-            Pageable pageable = PageRequest.of(page - 1, limit, Sort.by("id").descending());
+            Pageable pageable = PageRequest.of(page - 1, limit, Sort.by("id").ascending());
             Page<ProductResponse> pageResponse = productService.getAllProducts(keyword, categoryId, pageable);
             List<ProductResponse> products = pageResponse.toList();
             int totalPages = pageResponse.getTotalPages();
