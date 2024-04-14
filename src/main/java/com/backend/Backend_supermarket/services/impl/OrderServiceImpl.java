@@ -20,6 +20,7 @@ import com.backend.Backend_supermarket.responses.OrderDetailResponse;
 import com.backend.Backend_supermarket.responses.OrderResponse;
 import com.backend.Backend_supermarket.services.OrderService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,6 +31,7 @@ public class OrderServiceImpl implements OrderService{
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     
+    @Transactional
     @Override
     public OrderResponse createOrder(OrderDTO orderDTO) throws Exception {
         User user = userRepository.findById(orderDTO.getUserId())
@@ -77,9 +79,8 @@ public class OrderServiceImpl implements OrderService{
             .toList();
         return responses;
     }
-
     
-
+    @Transactional
     @Override
     public void deleteOrder(Long orderId) {
         Optional<Order> order = orderRepository.findById(orderId);

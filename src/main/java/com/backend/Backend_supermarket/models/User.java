@@ -3,7 +3,7 @@ package com.backend.Backend_supermarket.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

@@ -10,6 +10,7 @@ import com.backend.Backend_supermarket.responses.ProductImageResponse;
 import com.backend.Backend_supermarket.responses.ProductResponse;
 import com.backend.Backend_supermarket.services.ProductService;
 
+import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -40,6 +41,7 @@ public class ProductServiceImpl implements ProductService{
             .orElseThrow(() -> new Exception("Không tìm thấy sản phẩm"));
     }
 
+    @Transactional
     @Override
     public ProductResponse createProduct(ProductDTO productDTO) throws Exception {
         if(productRepository.existsByProductName(productDTO.getProductName())){
@@ -53,6 +55,7 @@ public class ProductServiceImpl implements ProductService{
         return getProductWithImages(saveProduct);
     }
 
+    @Transactional
     @Override
     public ProductResponse updateProduct(@NonNull Long productId,ProductDTO productDTO) throws Exception {
         if(!productRepository.existsById(productId)){

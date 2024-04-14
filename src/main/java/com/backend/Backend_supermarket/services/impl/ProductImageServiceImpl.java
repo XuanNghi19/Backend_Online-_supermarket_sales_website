@@ -13,6 +13,7 @@ import com.backend.Backend_supermarket.repositorys.ProductImageRepository;
 import com.backend.Backend_supermarket.repositorys.ProductRepository;
 import com.backend.Backend_supermarket.services.ProductImageService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -21,6 +22,7 @@ public class ProductImageServiceImpl implements ProductImageService {
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
 
+    @Transactional
     @Override
     public ProductImage createProductImageWithProductId(Long productId, String imageUrl) throws Exception {
         Product product = productRepository.findById(productId)
@@ -39,6 +41,7 @@ public class ProductImageServiceImpl implements ProductImageService {
         return productImage;
     }
 
+    @Transactional
     @Override
     public ProductImage updateProductImageByImageUrl(Long id, String imageUrl) throws Exception {
         ProductImage productImage = productImageRepository.findById(id)

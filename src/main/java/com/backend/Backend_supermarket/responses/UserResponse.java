@@ -1,6 +1,6 @@
 package com.backend.Backend_supermarket.responses;
 
-import java.sql.Date;
+import java.util.Date;
 
 import com.backend.Backend_supermarket.models.User;
 import com.fasterxml.jackson.annotation.JsonProperty;

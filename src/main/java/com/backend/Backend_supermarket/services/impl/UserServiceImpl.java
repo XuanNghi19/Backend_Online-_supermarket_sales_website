@@ -1,6 +1,8 @@
 package com.backend.Backend_supermarket.services.impl;
 
 import com.backend.Backend_supermarket.components.JwtTokenUtils;
+import com.backend.Backend_supermarket.dtos.UpdatePasswordDTO;
+import com.backend.Backend_supermarket.dtos.UpdateUserDTO;
 import com.backend.Backend_supermarket.dtos.UserDTO;
 import com.backend.Backend_supermarket.enums.Role;
 import com.backend.Backend_supermarket.models.User;
@@ -68,23 +70,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserResponse updateUser(Long id, UserDTO userDTO) throws Exception {
-
-        if(userRepository.existsByPhoneNumber(userDTO.getPhoneNumber())){
-            throw new Exception("Số điện thoại đã tồn tại !");
-        }
-
-        User existingUser = userRepository.findById(id)
-            .orElseThrow(() -> new Exception("Không tìm thấy "));
-        
-        existingUser = User.fromUserDTO(userDTO);
-        existingUser.setId(id);
-        existingUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-
-        return UserResponse.fromUser(userRepository.save(existingUser));
-    }
-
-    @Override
     public void deleteUser(Long id) {
         Optional<User> existingUser = userRepository.findById(id);
         if(existingUser.isPresent()){
@@ -107,6 +92,63 @@ public class UserServiceImpl implements UserService{
             throw new Exception("Không tìm thấy user với token!");
         }
         return UserResponse.fromUser(existingUser.get());
+    }
+
+    @Transactional
+    @Override
+    public UserResponse updateUserDetail(String token, UpdateUserDTO updateUserDTO) throws Exception {
+        if(jwtTokenUtils.isTokenExpired(token)){
+            throw new Exception("Token đã hết hạn!");
+        }
+
+        String phoneNumber = jwtTokenUtils.extractPhoneNumber(token);
+
+        Optional<User> user = userRepository.findByPhoneNumber(phoneNumber);
+        if(!user.isPresent()){
+            throw new Exception("Không tìm thấy user với token!");
+        }
+
+        User updateUser = user.get();
+        if(updateUserDTO.getAddress() != null){
+            updateUser.setAddress(updateUserDTO.getAddress());
+        }
+        if(updateUserDTO.getFullName() != null){
+            updateUser.setFullName(updateUserDTO.getFullName());
+        }
+        if(updateUserDTO.getEmail() != null){
+            updateUser.setEmail(updateUserDTO.getEmail());
+        }
+        if(updateUserDTO.getDateOfBirth() != null){
+            updateUser.setDateOfBirth(updateUserDTO.getDateOfBirth());
+        }
+        userRepository.save(updateUser);
+        return UserResponse.fromUser(updateUser);
+    }
+
+    @Transactional
+    @Override
+    public void updatePassword(String token, UpdatePasswordDTO updatePasswordDTO) throws Exception {
+
+        if(jwtTokenUtils.isTokenExpired(token)){
+            throw new Exception("Token đã hết hạn!");
+        }
+
+        String phoneNumber = jwtTokenUtils.extractPhoneNumber(token);
+
+        Optional<User> user = userRepository.findByPhoneNumber(phoneNumber);
+        if(!user.isPresent()){
+            throw new Exception("Không tìm thấy user với token!");
+        }
+
+        User existingUser = user.get();
+
+        if(!passwordEncoder.matches(updatePasswordDTO.getPassword(), existingUser.getPassword())){
+            throw new Exception("Sai mật khẩu");
+        }
+
+        existingUser.setPassword(passwordEncoder.encode(updatePasswordDTO.getNewPassword()));
+
+        userRepository.save(existingUser);
     }
 
 }
