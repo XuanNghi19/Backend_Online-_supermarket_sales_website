@@ -2,6 +2,8 @@ package com.backend.Backend_supermarket.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -24,6 +26,11 @@ public class PartnerDTO {
     @Pattern(regexp = "\\d{8,}", message = "Số điện tối thiểu là 8 số")
     @JsonProperty("phone_number")
     private String phoneNumber;
+
+    @NotNull
+    @Email
+    @JsonProperty("email")
+    private String email;
 
     @JsonProperty("address")
     private String address;
