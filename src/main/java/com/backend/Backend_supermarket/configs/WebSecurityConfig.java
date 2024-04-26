@@ -19,43 +19,53 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-    
+
     private final JwtTokenFilter jwtTokenFilter;
 
     @Value("${api.prefix}")
     private String apiPrefix;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(AbstractHttpConfigurer::disable)
-            .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
-            .authorizeHttpRequests(request ->{
-                request
-                    .requestMatchers(
-                        HttpMethod.GET,
-                        String.format("%s/products**", apiPrefix),
-                        String.format("%s/products", apiPrefix),
-                        String.format("%s/categories", apiPrefix)
-                    ).permitAll()
-                    .requestMatchers(
-                        HttpMethod.POST,
-                        String.format("%s/users/register", apiPrefix),
-                        String.format("%s/users/login", apiPrefix)
-                    ).permitAll()
-                    .requestMatchers(
-                        HttpMethod.GET,
-                        String.format("%s/users/**", apiPrefix),
-                        String.format("%s/orders/**", apiPrefix)
-                    )
-                    .hasAnyRole(Role.USER.toString(), Role.ADMIN.toString())
-                    .requestMatchers(
-                        HttpMethod.POST,
-                        String.format("%s/orders", apiPrefix)
-                    )
-                    .hasRole(Role.USER.toString())
-                    .anyRequest().authenticated();
-            });
+                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(request -> {
+                    request
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                String.format("%s/products**", apiPrefix),
+                                String.format("%s/products", apiPrefix),
+                                String.format("%s/categories", apiPrefix))
+                        .permitAll()
+                        .requestMatchers(
+                                "/api-docs",
+                                "/api-docs/**",
+                                "/swagger-resources",
+                                "/swagger-resources/**",
+                                "/configuration/ui",
+                                "/configuration/security",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/webjars/swagger-ui/**",
+                                "/swagger-ui/index.html")
+                        .permitAll()
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                String.format("%s/users/register", apiPrefix),
+                                String.format("%s/users/login", apiPrefix))
+                        .permitAll()
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                String.format("%s/users/**", apiPrefix),
+                                String.format("%s/orders/**", apiPrefix))
+                        .hasAnyRole(Role.USER.toString(), Role.ADMIN.toString())
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                String.format("%s/orders", apiPrefix))
+                        .hasRole(Role.USER.toString())
+                        .anyRequest().authenticated();
+                });
         return http.build();
     }
 }

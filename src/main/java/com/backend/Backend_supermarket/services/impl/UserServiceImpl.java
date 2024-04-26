@@ -69,6 +69,7 @@ public class UserServiceImpl implements UserService{
         throw new Exception("Thông tin đăng nhập không chính xác!");
     }
 
+    @Transactional
     @Override
     public void deleteUser(Long id) {
         Optional<User> existingUser = userRepository.findById(id);

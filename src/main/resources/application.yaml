@@ -1,0 +1,40 @@
+api:
+    prefix: api/v1
+jwt:
+    expiration: 2592000
+    secretKey: de721499b333d3a182e67fa6958c27b2869679375fcb9dc3005ca16018109ce6
+openapi:
+    service:
+        api-docs: api-service
+        server: http://localhost:8080/
+        title: Api-service
+        version: 1.0.0
+spring:
+    application:
+        name: Backend_supermarket
+    datasource:
+        # password: ${MYSQL_ROOT_PASSWORD:Abc123@}
+        password: root
+        # url: jdbc:mysql://${MYSQL_HOST:db}:${MYSQL_PORT:3307}/backend_supermarket
+        url: jdbc:mysql://localhost:3306/supermarket_online
+        username: root
+    jpa:
+        hibernate:
+            ddl-auto: update
+            naming:
+                implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        properties:
+            hibernate:
+                format_sql: true
+        show-sql: true
+    servlet:
+        multipart:
+            max-file-size: 10MB
+            max-request-size: 10MB
+springdoc:
+    api-docs:
+        path: /api-docs
+    show-actuator: true
+    swagger-ui:
+        path: /swagger-ui.html

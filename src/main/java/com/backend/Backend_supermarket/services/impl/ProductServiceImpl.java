@@ -73,6 +73,7 @@ public class ProductServiceImpl implements ProductService{
         return getProductWithImages(saveProduct);
     }
 
+    @Transactional
     @Override
     public void deleteProduct(Long productId){
         if(productRepository.existsById(productId)){

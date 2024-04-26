@@ -26,28 +26,28 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
-    
+
     private final JwtTokenUtils jwtTokenUtils;
     private final UserDetailsService userDetailsService;
 
     @Value("${api.prefix}")
     private String apiPrefix;
-    
+
     @Override
     protected void doFilterInternal(
-        @NonNull HttpServletRequest request, 
-        @NonNull HttpServletResponse response, 
-        @NonNull FilterChain filterChain)
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain)
             throws ServletException, IOException {
         try {
-             
-            if(isBypassToken(request)){
+
+            if (isBypassToken(request)) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
             final String authHeader = request.getHeader("Authorization");
-            if(authHeader == null || !authHeader.startsWith("Bearer ")){
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
                 return;
             }
@@ -56,22 +56,20 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             // Lấy ra phoneNumber từ token
             final String phoneNumber = jwtTokenUtils.extractPhoneNumber(token);
 
-            if(phoneNumber != null 
-                && SecurityContextHolder.getContext().getAuthentication() == null
-            ){
+            if (phoneNumber != null
+                    && SecurityContextHolder.getContext().getAuthentication() == null) {
                 // Lấy ra user bằng phoneNumber từ token
                 User user = (User) userDetailsService.loadUserByUsername(phoneNumber);
-                // xác thực người dùng 
+                // xác thực người dùng
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    phoneNumber, null, user.getAuthorities()
-                );
+                        phoneNumber, null, user.getAuthorities());
 
                 // thiết lập thông tin người dùng
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 // gắn authenticationToken vào SecurityContextHolder
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
-            filterChain.doFilter(request,response);
+            filterChain.doFilter(request, response);
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
@@ -82,18 +80,24 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             Pair.of(String.format("%s/products", apiPrefix), "GET"),
             Pair.of(String.format("%s/categories", apiPrefix), "GET"),
             Pair.of(String.format("%s/users/login", apiPrefix), "POST"),
-            Pair.of(String.format("%s/users/register", apiPrefix), "POST")
-        ) ;
+            Pair.of(String.format("%s/users/register", apiPrefix), "POST"),
+            Pair.of("/api-docs", "GET"),
+            Pair.of("/api-docs/**", "GET"),
+            Pair.of("/swagger-resources", "GET"),
+            Pair.of("/swagger-resources/**", "GET"),
+            Pair.of("/configuration/ui", "GET"),
+            Pair.of("/configuration/security", "GET"),
+            Pair.of("/swagger-ui", "GET"),
+            Pair.of("/swagger-ui.html", "GET"),
+            Pair.of("/swagger-ui/index.html", "GET"));
 
-        for(Pair<String, String> bypassToken : bypassTokens){
-            if(
-                request.getServletPath().contains(bypassToken.getFirst()) && 
-                    request.getMethod().equals(bypassToken.getSecond())
-            )
+        for (Pair<String, String> bypassToken : bypassTokens) {
+            if (request.getServletPath().contains(bypassToken.getFirst()) &&
+                    request.getMethod().equals(bypassToken.getSecond()))
                 return true;
         }
 
         return false;
     }
-    
+
 }

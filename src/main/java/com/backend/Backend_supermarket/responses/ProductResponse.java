@@ -15,6 +15,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ProductResponse {
+    @JsonProperty("product_id")
+    private Long id;
+
     @JsonProperty("product_name")
     private String productName;
 
@@ -35,6 +38,7 @@ public class ProductResponse {
 
     public static ProductResponse fromProduct(Product product, List<ProductImageResponse> images){
         return ProductResponse.builder()
+            .id(product.getId())
             .productName(product.getProductName())
             .price(product.getPrice())
             .categoryId(product.getCategory().getId())

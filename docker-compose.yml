@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  db:
+    container_name: db
+    image: mysql:8.2.0
+    restart: always
+    environment:
+      #Mật khẩu mysql
+      MYSQL_ROOT_PASSWORD: Abc123@
+      MYSQL_DATABASE: supermarket
+    ports:
+      - 3307:3306
+    volumes: 
+      #Copy file sql từ thư mục qua container
+      - ./sql/supermarket.sql:/docker-entrypoint-initdb.d/init-script.sql
+    networks:
+      - supermarket-network  
+
+  phpmyadmin8-container:
+    image: phpmyadmin/phpmyadmin   
+    container_name: phpmyadmin8-container
+    restart: always
+    depends_on:
+      - db     
+    ports:
+      - "8100:80" #port mapping
+    environment:
+      PMA_HOST: db #phpMyAdmin Host
+    networks:
+      - supermarket-network
+  supermarket-spring-container:    
+    container_name: supermarket-spring-container    
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile    
+      #docker tag <image_id> shopapp-spring:1.0.0    
+    ports:
+      - 8099:8080
+    environment:
+      MYSQL_HOST: db
+      SPRING_ROOT_PASSWORD: Abc123@
+      MYSQL_PORT: 3306
+    depends_on:      
+      - db
+    networks:
+      - supermarket-network   
+networks:
+  supermarket-network:
+    name: supermarket-network
+    driver: bridge
