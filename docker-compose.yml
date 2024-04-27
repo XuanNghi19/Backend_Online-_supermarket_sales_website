@@ -30,7 +30,7 @@ services:
       - supermarket-network
   supermarket-spring-container:    
     container_name: supermarket-spring-container    
-    restart: always
+    # restart: always
     build:
       context: .
       dockerfile: Dockerfile    
@@ -43,6 +43,7 @@ services:
       MYSQL_PORT: 3306
     depends_on:      
       - db
+      - phpmyadmin8-container
     networks:
       - supermarket-network   
 networks:

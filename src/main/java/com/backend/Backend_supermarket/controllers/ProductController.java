@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -58,28 +59,32 @@ public class ProductController {
         }
     }
 
-    
-
     @GetMapping
     public ResponseData<?> getAllProducts(
-        @RequestParam(name = "keyword", defaultValue = "") String keyword,
-        @RequestParam(name = "category_id", defaultValue = "0") Long categoryId,
-        @RequestParam(name = "page", defaultValue = "1") int page,
-        @RequestParam(name = "limit", defaultValue = "10") int limit
-    ){
+            @RequestParam(name = "keyword", defaultValue = "") String keyword,
+            @RequestParam(name = "category_id", defaultValue = "0") Long categoryId,
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "limit", defaultValue = "10") int limit,
+            @RequestParam(name = "sort", defaultValue = "id") String sort,
+            @RequestParam(name = "order", defaultValue = "asc") String order // Thêm tham số 'order' để xác định hướng
+                                                                             // sắp xếp
+    ) {
         try {
-            Pageable pageable = PageRequest.of(page - 1, limit, Sort.by("id").ascending());
+            Direction direction = Sort.Direction.ASC;
+            if (order.equalsIgnoreCase("desc")) {
+                direction = Sort.Direction.DESC;
+            }
+            Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(direction, sort));
             Page<ProductResponse> pageResponse = productService.getAllProducts(keyword, categoryId, pageable);
             List<ProductResponse> products = pageResponse.toList();
             int totalPages = pageResponse.getTotalPages();
             return new ResponseData<>(
-                HttpStatus.CREATED.value(),
-            "Lấy danh sách sản phẩm thành công", 
-                ProductListResponse.builder()
-                    .products(products)
-                    .totalPages(totalPages)
-                    .build()
-            );
+                    HttpStatus.CREATED.value(),
+                    "Lấy danh sách sản phẩm thành công",
+                    ProductListResponse.builder()
+                            .products(products)
+                            .totalPages(totalPages)
+                            .build());
         } catch (Exception e) {
             // TODO: handle exception
             return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), e.getMessage());
@@ -88,11 +93,10 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseData<?> getProductById(
-        @PathVariable("id") Long productId
-    ){
+            @PathVariable("id") Long productId) {
         try {
             ProductResponse responses = productService.getProductById(productId);
-            return new ResponseData<>(HttpStatus.CREATED.value(),"Lấy sản phẩm thành công", responses);
+            return new ResponseData<>(HttpStatus.CREATED.value(), "Lấy sản phẩm thành công", responses);
         } catch (Exception e) {
             // TODO: handle exception
             return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), e.getMessage());
@@ -101,10 +105,9 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseData<?> updateProduct(
-        @PathVariable("id") Long productId,
-        @RequestBody @Valid ProductDTO productDTO,
-        BindingResult result
-    ){
+            @PathVariable("id") Long productId,
+            @RequestBody @Valid ProductDTO productDTO,
+            BindingResult result) {
         try {
             // lấy ra danh sách lỗi check được ở validation
             if (result.hasErrors()) {
@@ -117,7 +120,7 @@ public class ProductController {
                 return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), errorMessages.toString());
             }
             ProductResponse responses = productService.updateProduct(productId, productDTO);
-            return new ResponseData<>(HttpStatus.CREATED.value(),"Cập nhật sản phẩm thành công", responses);
+            return new ResponseData<>(HttpStatus.CREATED.value(), "Cập nhật sản phẩm thành công", responses);
         } catch (Exception e) {
             // TODO: handle exception
             return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), e.getMessage());
@@ -126,11 +129,10 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseData<?> deleteProduct(
-        @PathVariable("id") Long productId
-    ){
+            @PathVariable("id") Long productId) {
         try {
             productService.deleteProduct(productId);
-            return new ResponseData<>(HttpStatus.OK.value(),"Xóa sản phẩm thành công");
+            return new ResponseData<>(HttpStatus.OK.value(), "Xóa sản phẩm thành công");
         } catch (Exception e) {
             // TODO: handle exception
             return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), e.getMessage());
