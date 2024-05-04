@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.backend.Backend_supermarket.components.JwtTokenUtils;
 import com.backend.Backend_supermarket.dtos.OrderDTO;
 import com.backend.Backend_supermarket.dtos.OrderDetailDTO;
 import com.backend.Backend_supermarket.models.Order;
@@ -30,6 +31,7 @@ public class OrderServiceImpl implements OrderService{
     private final OrderDetailRepository orderDetailRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final JwtTokenUtils jwtTokenUtils;
     
     @Transactional
     @Override
@@ -69,11 +71,18 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<OrderResponse> getAllOrderByUserId(Long userId) throws Exception {
-        if(!userRepository.existsById(userId)){
-            throw new Exception("Không tồn tại người dùng với id: " + userId);
+    public List<OrderResponse> getAllOrderByUserToken(String token) throws Exception {
+        if(jwtTokenUtils.isTokenExpired(token)){
+            throw new Exception("Token đã hết hạn!");
         }
-        List<OrderResponse> responses = orderRepository.getAllOrderByUserId(userId)
+
+        String phoneNumber = jwtTokenUtils.extractPhoneNumber(token);
+
+        Optional<User> existingUser = userRepository.findByPhoneNumber(phoneNumber);
+        if(!existingUser.isPresent()){
+            throw new Exception("Không tìm thấy user với token!");
+        }
+        List<OrderResponse> responses = orderRepository.getAllOrderByUserId(existingUser.get().getId())
             .stream()
             .map(order -> loadOrderResponse(order))
             .toList();

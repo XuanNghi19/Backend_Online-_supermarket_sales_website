@@ -7,7 +7,7 @@ import com.backend.Backend_supermarket.responses.OrderResponse;
 
 public interface OrderService {
     OrderResponse createOrder(OrderDTO orderDTO) throws Exception;
-    List<OrderResponse> getAllOrderByUserId(Long userId) throws Exception;
     OrderResponse getOrder(Long orderId) throws Exception;
     void deleteOrder(Long orderId);
+    List<OrderResponse> getAllOrderByUserToken(String token) throws Exception;
 }

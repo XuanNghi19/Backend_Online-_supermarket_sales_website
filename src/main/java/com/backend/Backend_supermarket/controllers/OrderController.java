@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,12 +52,13 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseData<?> getOrdersWithUserId(
-        @PathVariable("id") Long userId
+    @GetMapping("/user")
+    public ResponseData<?> getOrdersWithUser(
+        @RequestHeader("Authorization") String authorizationHeader
     ){
         try {
-            List<OrderResponse> responses = orderService.getAllOrderByUserId(userId);
+            String token = authorizationHeader.substring(7);
+            List<OrderResponse> responses = orderService.getAllOrderByUserToken(token);
             return new ResponseData<>(HttpStatus.OK.value(), "Lấy danh sách đơn hàng thành công", responses);
             
         } catch (Exception e) {

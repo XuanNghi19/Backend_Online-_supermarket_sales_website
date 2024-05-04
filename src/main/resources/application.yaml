@@ -9,6 +9,8 @@ openapi:
         server: http://localhost:8080/
         title: Api-service
         version: 1.0.0
+server:
+  port: 8080
 spring:
     application:
         name: Backend_supermarket
@@ -38,3 +40,6 @@ springdoc:
     show-actuator: true
     swagger-ui:
         path: /swagger-ui.html
+management:
+    endpoint:
+        health.show-details: always
