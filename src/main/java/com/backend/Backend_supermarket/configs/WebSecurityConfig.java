@@ -34,6 +34,7 @@ public class WebSecurityConfig {
                     request
                         .requestMatchers(
                                 HttpMethod.GET,
+                                String.format("%s/users/avatar/**", apiPrefix),
                                 String.format("%s/products**", apiPrefix),
                                 String.format("%s/products", apiPrefix),
                                 String.format("%s/categories", apiPrefix))
@@ -62,6 +63,7 @@ public class WebSecurityConfig {
                         .hasAnyRole(Role.USER.toString(), Role.ADMIN.toString())
                         .requestMatchers(
                                 HttpMethod.POST,
+                                String.format("%s/users/uploads", apiPrefix),
                                 String.format("%s/orders", apiPrefix))
                         .hasRole(Role.USER.toString())
                         .anyRequest().authenticated();

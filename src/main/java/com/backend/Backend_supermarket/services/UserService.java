@@ -15,4 +15,6 @@ public interface UserService {
     UserResponse getUserDetail(String token) throws Exception;
     UserResponse updateUserDetail(String token, UpdateUserDTO updateUserDTO) throws Exception;
     void updatePassword(String token, UpdatePasswordDTO updatePasswordDTO) throws Exception;
+    void uploadAvatar(String token, String avatarFileName) throws Exception;
+    boolean isPresentAvatarFileName(String avatarFileName);
 }

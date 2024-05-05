@@ -33,6 +33,9 @@ public class UserResponse {
     @JsonProperty("active")
     private Boolean active; 
 
+    @JsonProperty("avatar")
+    private String avatar; 
+
     public static UserResponse fromUser(User user){
         return UserResponse.builder()
             .email(user.getEmail())
@@ -41,6 +44,7 @@ public class UserResponse {
             .dateOfBirth(user.getDateOfBirth())
             .fullName(user.getFullName())
             .active(user.getActive())
+            .avatar(user.getAvatar())
             .build();
     }
 }

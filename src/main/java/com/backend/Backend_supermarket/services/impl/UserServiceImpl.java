@@ -152,4 +152,27 @@ public class UserServiceImpl implements UserService{
         userRepository.save(existingUser);
     }
 
+    @Transactional
+    @Override
+    public void uploadAvatar(String token, String avatarFileName) throws Exception {
+        if(jwtTokenUtils.isTokenExpired(token)){
+            throw new Exception("Token đã hết hạn!");
+        }
+
+        String phoneNumber = jwtTokenUtils.extractPhoneNumber(token);
+
+        Optional<User> user = userRepository.findByPhoneNumber(phoneNumber);
+        if(!user.isPresent()){
+            throw new Exception("Không tìm thấy user với token!");
+        }
+        User existingUser = user.get();
+        existingUser.setAvatar(avatarFileName);
+        userRepository.save(existingUser);
+    }
+
+    @Override
+    public boolean isPresentAvatarFileName(String avatarFileName){
+        return userRepository.existsByAvatar(avatarFileName);
+    }
+
 }
