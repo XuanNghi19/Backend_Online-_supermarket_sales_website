@@ -1,6 +1,7 @@
 package com.backend.Backend_supermarket.services.impl;
 
 import com.backend.Backend_supermarket.dtos.UserDTO;
+import com.backend.Backend_supermarket.enums.Role;
 import com.backend.Backend_supermarket.models.User;
 import com.backend.Backend_supermarket.repositorys.UserRepository;
 import com.backend.Backend_supermarket.responses.ManagementUserResponse;
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> getAllClient() {
 
-        return userRepository.findByRoleAndActiveTrue("client")
+        return userRepository.findByRoleAndActiveTrue(Role.USER)
                 .stream()
                 .map(UserResponse::fromUser)
                 .toList();
@@ -34,14 +35,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserResponse> getAllClientWithPagination(int page, int pageSize) {
         return  userRepository.findByRoleAndActiveTrue(
-                "client",
+                Role.USER,
                 PageRequest.of(page - 1, pageSize))
                 .map(UserResponse::fromUser);
     }
 
     @Override
     public List<UserResponse> getAllStaff() {
-        return userRepository.findByRoleNotAndActiveTrue("client")
+        return userRepository.findByRoleNotAndActiveTrue(Role.USER)
                 .stream()
                 .map(UserResponse::fromUser)
                 .toList();
@@ -50,13 +51,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserResponse> getAllStaffWithPagination(int page, int pageSize) {
         return userRepository.findByRoleNotAndActiveTrue(
-                "client",
+                Role.USER,
                 PageRequest.of(page - 1, pageSize))
                 .map(UserResponse::fromUser);
     }
 
     @Override
-    public List<UserResponse> getAllStaffByRole(String role) {
+    public List<UserResponse> getAllStaffByRole(Role role) {
         return userRepository.findByRoleAndActiveTrue(role)
                 .stream()
                 .map(UserResponse::fromUser)
@@ -64,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserResponse> getAllStaffByRoleWithPagination(String role, int page, int pageSize) {
+    public Page<UserResponse> getAllStaffByRoleWithPagination(Role role, int page, int pageSize) {
         return userRepository.findByRoleAndActiveTrue(
                 role,
                 PageRequest.of(page - 1, pageSize))

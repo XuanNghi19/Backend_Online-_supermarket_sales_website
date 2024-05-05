@@ -1,6 +1,7 @@
 package com.backend.Backend_supermarket.controllers;
 
 import com.backend.Backend_supermarket.dtos.UserDTO;
+import com.backend.Backend_supermarket.enums.Role;
 import com.backend.Backend_supermarket.responses.ManagementUserResponse;
 import com.backend.Backend_supermarket.responses.MessageResponse;
 import com.backend.Backend_supermarket.responses.UserResponse;
@@ -72,7 +73,7 @@ public class ManagementUserController {
 
     // loc danh sach nhan vien
     @GetMapping("/staffs/{role}")
-    public ResponseEntity<?> getAllStaffByRole(@PathVariable("role") String staffRole) {
+    public ResponseEntity<?> getAllStaffByRole(@PathVariable("role") Role staffRole) {
         try {
             List<UserResponse> staffList = userService.getAllStaffByRole(staffRole);
             return ResponseEntity.ok().body(staffList);
@@ -83,7 +84,7 @@ public class ManagementUserController {
 
     @GetMapping("/staffs/{role}/{page}/{pageSize}")
     public ResponseEntity<?> getAllStaffByRoleWithPagination(
-            @PathVariable String role,
+            @PathVariable Role role,
             @PathVariable int page,
             @PathVariable int pageSize
     ) {

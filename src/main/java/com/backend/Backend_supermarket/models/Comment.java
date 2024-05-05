@@ -23,8 +23,8 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "comment")
-    private String comment;
+    @Column(name = "comment_text")
+    private String commentText;
 
     @Column(name = "star")
     private int star;
