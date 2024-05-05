@@ -3,7 +3,6 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 FROM openjdk:17.0.1-jdk-slim
-
-COPY --from=build /target/Backend_supermarket-0.0.1-SNAPSOT.jar Backend_supermarket.jar
+COPY --from=build /target/demo-0.0.1-SNAPSHOT.jar demo.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","Backend_supermarket.jar"]
+ENTRYPOINT ["java","-jar","demo.jar"]
