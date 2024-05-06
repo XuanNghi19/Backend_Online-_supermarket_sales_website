@@ -1,5 +1,6 @@
 package com.backend.Backend_supermarket.dtos;
 
+import com.backend.Backend_supermarket.enums.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -46,5 +47,5 @@ public class UserDTO {
     private String avatar;
 
     @JsonProperty("role")
-    private String role;
+    private Role role;
 }

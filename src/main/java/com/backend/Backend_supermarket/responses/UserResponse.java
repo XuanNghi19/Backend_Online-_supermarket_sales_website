@@ -1,7 +1,8 @@
 package com.backend.Backend_supermarket.responses;
 
-import java.sql.Date;
+import java.util.Date;
 
+import com.backend.Backend_supermarket.enums.Role;
 import com.backend.Backend_supermarket.models.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -38,7 +39,7 @@ public class UserResponse {
     private String avatar;
 
     @JsonProperty("role")
-    private String role;
+    private Role role;
 
     @JsonProperty("active")
     private Boolean active;

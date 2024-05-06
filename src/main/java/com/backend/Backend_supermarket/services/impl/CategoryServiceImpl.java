@@ -9,6 +9,7 @@ import com.backend.Backend_supermarket.models.Category;
 import com.backend.Backend_supermarket.repositorys.CategoryRepository;
 import com.backend.Backend_supermarket.services.CategoryService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,6 +23,7 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryRepository.findAll();
     }
 
+    @Transactional
     @Override
     public Category createCategory(CategoryDTO categoryDTO) throws Exception {
         if(categoryRepository.existsByCategoryName(categoryDTO.getCategoryName())){

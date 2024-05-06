@@ -1,5 +1,6 @@
 package com.backend.Backend_supermarket.responses;
 
+import com.backend.Backend_supermarket.enums.Role;
 import com.backend.Backend_supermarket.models.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -39,7 +40,7 @@ public class ManagementUserResponse {
     private String avatar;
 
     @JsonProperty("role")
-    private String role;
+    private Role role;
 
     @JsonProperty("active")
     private Boolean active;

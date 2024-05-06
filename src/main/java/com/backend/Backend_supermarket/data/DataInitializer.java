@@ -1,6 +1,7 @@
 package com.backend.Backend_supermarket.data;
 
 import com.backend.Backend_supermarket.dtos.UserDTO;
+import com.backend.Backend_supermarket.enums.Role;
 import com.backend.Backend_supermarket.models.User;
 import com.backend.Backend_supermarket.repositorys.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,20 +24,18 @@ public class DataInitializer implements CommandLineRunner {
 //        String password = "password";
 //        String address = " Main St";
 //        String avatar = "assets/user_image_default.jpg";
-//        String role;
 //
 //        List<User> clientList = new ArrayList<User>();
-//        role = "client";
 //        for(int i = 0; i < 5; i++){
 //            UserDTO newUserDTO = UserDTO.builder()
 //                    .email("client" + i +email)
 //                    .password("password" + i)
-//                    .phoneNumber("0123456789")
+//                    .phoneNumber("0123456789" + i)
 //                    .address(i + address)
 //                    .dateOfBirth(Date.valueOf("1990-01-01"))
 //                    .fullName("Client " + i)
 //                    .avatar(avatar)
-//                    .role(role)
+//                    .role(Role.USER)
 //                    .build();
 //            User newUser = User.fromUserDTO(newUserDTO);
 //            newUser.setActive(true);
@@ -47,29 +46,28 @@ public class DataInitializer implements CommandLineRunner {
 //        UserDTO adminDTO = UserDTO.builder()
 //                .email("admin" +email)
 //                .password("password")
-//                .phoneNumber("0123456789")
+//                .phoneNumber("0123456781")
 //                .address(address)
 //                .dateOfBirth(Date.valueOf("1990-01-01"))
 //                .fullName("Admin")
 //                .avatar(avatar)
-//                .role("admin")
+//                .role(Role.ADMIN)
 //                .build();
 //        User admin = User.fromUserDTO(adminDTO);
 //        admin.setActive(true);
 //        userRepository.save(admin);
 //
 //        List<User> inventoryList = new ArrayList<User>();
-//        role = "inventory";
 //        for(int i = 0; i < 5; i++){
 //            UserDTO newUserDTO = UserDTO.builder()
 //                    .email("inventory" + i +email)
 //                    .password("password" + i)
-//                    .phoneNumber("0123456789")
+//                    .phoneNumber("0123456782" + i)
 //                    .address(i + address)
 //                    .dateOfBirth(Date.valueOf("1990-01-01"))
 //                    .fullName("Inventory " + i)
 //                    .avatar(avatar)
-//                    .role(role)
+//                    .role(Role.WAREHOUSE)
 //                    .build();
 //            User newUser = User.fromUserDTO(newUserDTO);
 //            newUser.setActive(true);
@@ -78,17 +76,16 @@ public class DataInitializer implements CommandLineRunner {
 //        userRepository.saveAll(inventoryList);
 //
 //        List<User> salesList = new ArrayList<User>();
-//        role = "sales";
 //        for(int i = 0; i < 5; i++){
 //            UserDTO newUserDTO = UserDTO.builder()
 //                    .email("sales" + i +email)
 //                    .password("password" + i)
-//                    .phoneNumber("0123456789")
+//                    .phoneNumber("0123456783" + i)
 //                    .address(i + address)
 //                    .dateOfBirth(Date.valueOf("1990-01-01"))
 //                    .fullName("Sales " + i)
 //                    .avatar(avatar)
-//                    .role(role)
+//                    .role(Role.SALES)
 //                    .build();
 //            User newUser = User.fromUserDTO(newUserDTO);
 //            newUser.setActive(true);

@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/user management")
+@RequestMapping("${api.prefix}/userManagement")
 public class ManagementUserController {
 
     private final UserService userService;
@@ -153,8 +153,8 @@ public class ManagementUserController {
             @PathVariable("id") Long userId
     ) {
         try {
-            String string = userService.deleteUser(userId);
-            return ResponseEntity.ok(new MessageResponse(string));
+            userService.deleteUser(userId);
+            return ResponseEntity.ok(new MessageResponse());
         } catch (Exception e) {
             return ResponseEntity.ok().body(e.getMessage());
         }

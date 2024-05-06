@@ -3,11 +3,12 @@ package com.backend.Backend_supermarket.services;
 import com.backend.Backend_supermarket.dtos.ProductDTO;
 import com.backend.Backend_supermarket.responses.ProductResponse;
 
-import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
-    public List<ProductResponse> getAllProduct();
-    public List<ProductResponse> getProductsByCategoryId(Long categoryId);
+    public Page<ProductResponse> getAllProducts(String keyword, Long categoryId, Pageable pageable);
     public ProductResponse getProductById(Long productId) throws Exception;
     public ProductResponse createProduct(ProductDTO productDTO) throws Exception;
     public ProductResponse updateProduct(Long productId,ProductDTO productDTO) throws Exception;
