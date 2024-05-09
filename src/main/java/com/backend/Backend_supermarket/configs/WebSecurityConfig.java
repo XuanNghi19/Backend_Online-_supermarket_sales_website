@@ -36,6 +36,7 @@ public class WebSecurityConfig {
                                 HttpMethod.GET,
                                 String.format("%s/users/avatar/**", apiPrefix),
                                 String.format("%s/products/**", apiPrefix),
+                                String.format("%s/productImages/**", apiPrefix),
                                 String.format("%s/products", apiPrefix),
                                 String.format("%s/categories", apiPrefix))
                         .permitAll()
