@@ -14,14 +14,10 @@ public class OrderDetailResponse {
     @JsonProperty("number_of_products")
     private int numberOfProducts;
 
-    @JsonProperty("total_money")
-    private Float totalMoney;
-
     public static OrderDetailResponse fromOrderDetail(OrderDetail orderDetail){
         return OrderDetailResponse.builder()
             .product(orderDetail.getProduct())
             .numberOfProducts(orderDetail.getNumberOfProducts())
-            .totalMoney(orderDetail.getTotalPrice())
             .build();
     }
 }

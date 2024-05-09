@@ -52,7 +52,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/user")
+    @GetMapping("/history")
     public ResponseData<?> getOrdersWithUser(
         @RequestHeader("Authorization") String authorizationHeader
     ){

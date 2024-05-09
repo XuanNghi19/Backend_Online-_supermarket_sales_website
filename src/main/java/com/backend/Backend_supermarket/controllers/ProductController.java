@@ -84,6 +84,8 @@ public class ProductController {
                     ProductListResponse.builder()
                             .products(products)
                             .totalPages(totalPages)
+                            .currentPage(page)
+                            .pageSize(limit)
                             .build());
         } catch (Exception e) {
             // TODO: handle exception

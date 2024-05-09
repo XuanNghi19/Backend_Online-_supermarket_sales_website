@@ -15,6 +15,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserResponse {
+    @JsonProperty("id")
+    private Long id;
+
     @JsonProperty("email")
     private String email;
 
@@ -38,6 +41,7 @@ public class UserResponse {
 
     public static UserResponse fromUser(User user){
         return UserResponse.builder()
+            .id(user.getId())
             .email(user.getEmail())
             .phoneNumber(user.getPhoneNumber())
             .address(user.getAddress())

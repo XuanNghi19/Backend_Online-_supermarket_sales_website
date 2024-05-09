@@ -7,6 +7,7 @@ import com.backend.Backend_supermarket.dtos.UserDTO;
 import com.backend.Backend_supermarket.enums.Role;
 import com.backend.Backend_supermarket.models.User;
 import com.backend.Backend_supermarket.repositorys.UserRepository;
+import com.backend.Backend_supermarket.responses.LoginResponse;
 import com.backend.Backend_supermarket.responses.UserResponse;
 import com.backend.Backend_supermarket.services.UserService;
 
@@ -55,14 +56,17 @@ public class UserServiceImpl implements UserService{
 
     
     @Override
-    public String login(String phoneNumber, String password) throws Exception {
+    public LoginResponse login(String phoneNumber, String password) throws Exception {
         User existingUser = userRepository.findByPhoneNumber(phoneNumber)
             .orElseThrow(() -> new Exception("Thông tin đăng nhập không chính xác!"));
         
         if(passwordEncoder.matches( password, existingUser.getPassword())){
             if(existingUser.getActive()){
                 String token = jwtTokenUtils.generateToken(existingUser);
-                return token;
+                return LoginResponse.builder()
+                    .accessToken(token)
+                    .user(UserResponse.fromUser(existingUser))
+                    .build();
             }
             throw new Exception("Tài khoản đã bị khóa!");
         }

@@ -25,7 +25,7 @@ public class CommentDTO {
     private String content;
 
     @Min(value = 1, message = "Sao đánh giá tối thiểu là 1")
-    @Max(value = 1, message = "Sao đánh giá tối đa là 5")
+    @Max(value = 5, message = "Sao đánh giá tối đa là 5")
     @JsonProperty("star")
     private int star;
 }

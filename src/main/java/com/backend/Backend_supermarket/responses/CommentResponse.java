@@ -24,15 +24,15 @@ public class CommentResponse {
     @JsonProperty("star")
     private int star;
 
-    @JsonProperty("create_at")
-    private LocalDateTime createAt;
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
 
     public static CommentResponse fromComment(Comment comment){
         return CommentResponse.builder()
             .username(comment.getUser().getUsername())
             .content(comment.getContent())
             .star(comment.getStar())
-            .createAt(comment.getCreatedAt())
+            .createdAt(comment.getCreatedAt())
             .build();
     }
 }

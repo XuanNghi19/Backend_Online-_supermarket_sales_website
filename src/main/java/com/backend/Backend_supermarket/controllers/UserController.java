@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +29,7 @@ import com.backend.Backend_supermarket.dtos.LoginDTO;
 import com.backend.Backend_supermarket.dtos.UpdatePasswordDTO;
 import com.backend.Backend_supermarket.dtos.UpdateUserDTO;
 import com.backend.Backend_supermarket.dtos.UserDTO;
-import com.backend.Backend_supermarket.models.ProductImage;
+import com.backend.Backend_supermarket.responses.LoginResponse;
 import com.backend.Backend_supermarket.responses.ResponseData;
 import com.backend.Backend_supermarket.responses.UserResponse;
 import com.backend.Backend_supermarket.services.UserService;
@@ -82,9 +81,9 @@ public class UserController {
                 return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), errorMessages.toString());
                 // return ResponseEntity.badRequest().body(errorMessages);
             }
-            String token = userService.login(loginDTO.getPhoneNumber(), loginDTO.getPassword());
+            LoginResponse response = userService.login(loginDTO.getPhoneNumber(), loginDTO.getPassword());
             // return ResponseEntity.ok().body(token);
-            return new ResponseData<>(HttpStatus.OK.value(), "Login successfully", token);
+            return new ResponseData<>(HttpStatus.OK.value(), "Login successfully", response);
         } catch (Exception e) {
             // TODO: handle exception
             return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), e.getMessage());
