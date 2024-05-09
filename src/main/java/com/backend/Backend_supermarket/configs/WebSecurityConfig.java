@@ -60,7 +60,7 @@ public class WebSecurityConfig {
                                 HttpMethod.GET,
                                 String.format("%s/users/**", apiPrefix),
                                 String.format("%s/orders/**", apiPrefix))
-                        .hasAnyRole(Role.USER.toString(), Role.ADMIN.toString(), Role.SALES.toString())
+                        .hasAnyRole(Role.USER.toString(), Role.ADMIN.toString(), Role.WAREHOUSE.toString(), Role.SALES.toString())
                         .requestMatchers(
                                 HttpMethod.POST,
                                 String.format("%s/users/uploads", apiPrefix),
