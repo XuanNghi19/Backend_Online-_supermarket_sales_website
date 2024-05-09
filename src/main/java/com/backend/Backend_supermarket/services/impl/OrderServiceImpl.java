@@ -67,6 +67,8 @@ public class OrderServiceImpl implements OrderService{
         }
         response.setOrderDetails(orderDetailResponses);
         response.setTotalMoney(totalMoney);
+        order.setTotalMoney(totalMoney);
+        orderRepository.save(order);
         return response;
     }
 

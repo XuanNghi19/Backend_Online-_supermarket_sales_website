@@ -49,6 +49,7 @@ public class OrderResponse {
             .shippingDate(order.getShippingDate())
             .status(order.getStatus())
             .createdAt(order.getCreatedAt())
+            .totalMoney(order.getTotalMoney())
             .build();
     }
 }
