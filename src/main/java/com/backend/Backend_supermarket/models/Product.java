@@ -32,6 +32,9 @@ public class Product {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "sold")
+    private int sold;
+
     public static Product fromProduct(ProductDTO productDto, Category category){
         return Product.builder()
             .productName(productDto.getProductName())
@@ -39,6 +42,7 @@ public class Product {
             .category(category)
             .description(productDto.getDescription())
             .quantity(productDto.getQuantity())
+            .sold(0)
             .build();
     }
 }

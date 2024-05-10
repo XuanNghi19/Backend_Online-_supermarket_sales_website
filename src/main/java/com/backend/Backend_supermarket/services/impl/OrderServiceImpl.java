@@ -57,16 +57,18 @@ public class OrderServiceImpl implements OrderService{
                 .product(product)
                 .order(order)
                 .numberOfProducts(orderDetailDTO.getNumberOfProducts())
-                .totalPrice(product.getPrice() * orderDetailDTO.getNumberOfProducts())
                 .build();
-            totalMoney += orderDetail.getTotalPrice();
+            totalMoney += product.getPrice() * orderDetailDTO.getNumberOfProducts();
             orderDetailRepository.save(orderDetail);
             product.setQuantity(product.getQuantity() - orderDetailDTO.getNumberOfProducts());
+            product.setSold(orderDetailDTO.getNumberOfProducts());
             productRepository.save(product);
             orderDetailResponses.add(OrderDetailResponse.fromOrderDetail(orderDetail));
         }
         response.setOrderDetails(orderDetailResponses);
         response.setTotalMoney(totalMoney);
+        order.setTotalMoney(totalMoney);
+        orderRepository.save(order);
         return response;
     }
 

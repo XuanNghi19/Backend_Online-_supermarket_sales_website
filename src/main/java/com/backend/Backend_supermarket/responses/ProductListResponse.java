@@ -16,6 +16,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductListResponse {
 
+    @JsonProperty("current_page")
+    private int currentPage;
+
+    @JsonProperty("page_size")
+    private int pageSize;
+
     @JsonProperty("total_pages")
     private int totalPages;
     
