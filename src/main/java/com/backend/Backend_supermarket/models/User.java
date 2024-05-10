@@ -1,5 +1,6 @@
 package com.backend.Backend_supermarket.models;
 
+import com.backend.Backend_supermarket.dtos.ManagerUserDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -62,9 +63,19 @@ public class User extends BaseEntity implements UserDetails {
             .address(userDto.getAddress())
             .dateOfBirth(userDto.getDateOfBirth())
             .fullName(userDto.getFullName())
-            .avatar(userDto.getAvatar())
-            .role(userDto.getRole())
             .build();
+    }
+
+    public static User fromManagerUserDTO(ManagerUserDTO managerUserDTO){
+        return User.builder()
+                .email(managerUserDTO.getEmail())
+                .phoneNumber(managerUserDTO.getPhoneNumber())
+                .address(managerUserDTO.getAddress())
+                .dateOfBirth(managerUserDTO.getDateOfBirth())
+                .fullName(managerUserDTO.getFullName())
+                .avatar(managerUserDTO.getAvatar())
+                .role(managerUserDTO.getRole())
+                .build();
     }
 
     @Override
