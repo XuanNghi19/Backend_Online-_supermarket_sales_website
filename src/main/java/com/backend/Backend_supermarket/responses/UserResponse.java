@@ -47,16 +47,15 @@ public class UserResponse {
     // cho admin
     public static UserResponse fromUser(User user) {
         return UserResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .phoneNumber(user.getPhoneNumber())
-                .address(user.getAddress())
-                .dateOfBirth(user.getDateOfBirth())
-                .fullName(user.getFullName())
-                .avatar(user.getAvatar())
-                .role(user.getRole())
-                .active(user.getActive())
-                .build();
+            .id(user.getId())
+            .email(user.getEmail())
+            .phoneNumber(user.getPhoneNumber())
+            .address(user.getAddress())
+            .dateOfBirth(user.getDateOfBirth())
+            .fullName(user.getFullName())
+            .active(user.getActive())
+            .avatar(user.getAvatar())
+            .build();
     }
 
 }

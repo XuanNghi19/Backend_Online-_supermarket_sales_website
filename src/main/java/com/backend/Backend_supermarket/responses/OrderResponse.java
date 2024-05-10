@@ -1,6 +1,7 @@
 package com.backend.Backend_supermarket.responses;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.backend.Backend_supermarket.models.Order;
@@ -12,6 +13,9 @@ import lombok.Data;
 @Data
 @Builder
 public class OrderResponse {
+    @JsonProperty("id")
+    private Long id;
+
     @JsonProperty("payment_method")
     private String paymentMethod;
 
@@ -33,13 +37,19 @@ public class OrderResponse {
     @JsonProperty("order_details")
     private List<OrderDetailResponse> orderDetails;
 
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+
     public static OrderResponse fromOrder(Order order){
         return OrderResponse.builder()
+            .id(order.getId())
             .paymentMethod(order.getPaymentMethod())
             .paymentStatus(order.getPaymentStatus())
             .shippingAddress(order.getShippingAddress())
             .shippingDate(order.getShippingDate())
             .status(order.getStatus())
+            .createdAt(order.getCreatedAt())
+            .totalMoney(order.getTotalMoney())
             .build();
     }
 }

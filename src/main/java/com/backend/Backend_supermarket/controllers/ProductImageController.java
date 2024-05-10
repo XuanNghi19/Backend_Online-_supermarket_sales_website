@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/productImage")
+@RequestMapping("${api.prefix}/productImages")
 public class ProductImageController {
     private final ProductImageService productImageService;
 
