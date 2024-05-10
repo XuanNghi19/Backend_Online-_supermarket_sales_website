@@ -102,4 +102,5 @@ SELECT p.id,
 FROM products p
 CROSS JOIN img
 ORDER BY p.id, img.img_num;
-    
+
+Select * from products;

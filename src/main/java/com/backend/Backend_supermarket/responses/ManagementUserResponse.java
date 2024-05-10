@@ -55,7 +55,7 @@ public class ManagementUserResponse {
                 .address(user.getAddress())
                 .dateOfBirth(user.getDateOfBirth())
                 .fullName(user.getFullName())
-                .avatar(user.getAvatar())
+                .avatar("https://objectstorage.ap-singapore-1.oraclecloud.com/n/axegw7pib4cf/b/PXN_img/o/Products/" + (user.getAvatar()).replaceAll(" ", "%20"))
                 .role(user.getRole())
                 .active(user.getActive())
                 .build();

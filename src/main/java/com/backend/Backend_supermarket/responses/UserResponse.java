@@ -54,7 +54,7 @@ public class UserResponse {
             .dateOfBirth(user.getDateOfBirth())
             .fullName(user.getFullName())
             .active(user.getActive())
-            .avatar(user.getAvatar())
+            .avatar("https://objectstorage.ap-singapore-1.oraclecloud.com/n/axegw7pib4cf/b/PXN_img/o/Products/" + (user.getAvatar()).replaceAll(" ", "%20"))
             .build();
     }
 

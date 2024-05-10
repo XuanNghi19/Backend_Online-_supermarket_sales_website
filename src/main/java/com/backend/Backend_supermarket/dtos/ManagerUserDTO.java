@@ -14,7 +14,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDTO {
+public class ManagerUserDTO {
     @NotNull
     @Email
     @JsonProperty("email")
@@ -42,4 +42,10 @@ public class UserDTO {
     @NotNull
     @JsonProperty("full_name")
     private String fullName;
+
+    @JsonProperty("avatar")
+    private String avatar;
+
+    @JsonProperty("role")
+    private Role role;
 }
