@@ -46,17 +46,19 @@ public class UserResponse {
 
     // cho admin
     public static UserResponse fromUser(User user) {
+        String avatar = user.getAvatar() != null ? "https://objectstorage.ap-singapore-1.oraclecloud.com/n/axegw7pib4cf/b/PXN_img/o/Products/" + (user.getAvatar()).replaceAll(" ", "%20") : "";
+
         return UserResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .phoneNumber(user.getPhoneNumber())
-                .address(user.getAddress())
-                .dateOfBirth(user.getDateOfBirth())
-                .fullName(user.getFullName())
-                .avatar(user.getAvatar())
-                .role(user.getRole())
-                .active(user.getActive())
-                .build();
+            .id(user.getId())
+            .email(user.getEmail())
+            .phoneNumber(user.getPhoneNumber())
+            .address(user.getAddress())
+            .dateOfBirth(user.getDateOfBirth())
+            .fullName(user.getFullName())
+            .active(user.getActive())
+            .role(user.getRole())
+            .avatar(avatar)
+            .build();
     }
 
 }

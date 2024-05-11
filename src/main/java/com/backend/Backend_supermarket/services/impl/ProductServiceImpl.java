@@ -4,8 +4,10 @@ import com.backend.Backend_supermarket.dtos.ProductDTO;
 import com.backend.Backend_supermarket.models.Category;
 import com.backend.Backend_supermarket.models.Product;
 import com.backend.Backend_supermarket.repositorys.CategoryRepository;
+import com.backend.Backend_supermarket.repositorys.CommentRepository;
 import com.backend.Backend_supermarket.repositorys.ProductImageRepository;
 import com.backend.Backend_supermarket.repositorys.ProductRepository;
+import com.backend.Backend_supermarket.responses.CommentResponse;
 import com.backend.Backend_supermarket.responses.ProductImageResponse;
 import com.backend.Backend_supermarket.responses.ProductResponse;
 import com.backend.Backend_supermarket.services.ProductService;
@@ -27,17 +29,18 @@ public class ProductServiceImpl implements ProductService{
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
     private final CategoryRepository categoryRepository;
+    private final CommentRepository commentRepository;
 
     @Override
     public Page<ProductResponse> getAllProducts(String keyword, Long categoryId, Pageable pageable) {
         return productRepository.findAll(keyword, categoryId, pageable)
-            .map(product -> getProductWithImages(product));
+            .map(product -> getProductWithImagesAndComment(product));
     }
 
     @Override
     public ProductResponse getProductById(Long productId) throws Exception {
         return productRepository.findById(productId)
-            .map(product -> getProductWithImages(product))
+            .map(product -> getProductWithImagesAndComment(product))
             .orElseThrow(() -> new Exception("Không tìm thấy sản phẩm"));
     }
 
@@ -52,7 +55,7 @@ public class ProductServiceImpl implements ProductService{
         
         Product newProduct = Product.fromProduct(productDTO, category);
         Product saveProduct = productRepository.save(newProduct);
-        return getProductWithImages(saveProduct);
+        return getProductWithImagesAndComment(saveProduct);
     }
 
     @Transactional
@@ -70,7 +73,7 @@ public class ProductServiceImpl implements ProductService{
         Product updateProduct = Product.fromProduct(productDTO, category);
         updateProduct.setId(productId);
         Product saveProduct = productRepository.save(updateProduct);
-        return getProductWithImages(saveProduct);
+        return getProductWithImagesAndComment(saveProduct);
     }
 
     @Transactional
@@ -81,11 +84,15 @@ public class ProductServiceImpl implements ProductService{
         }
     }
 
-    private ProductResponse getProductWithImages(Product product){
+    private ProductResponse getProductWithImagesAndComment(Product product){
         List<ProductImageResponse> productImages = productImageRepository.findByProductId(product.getId())
                     .stream()
                     .map(ProductImageResponse::fromProductImage)
                     .toList();
-                return ProductResponse.fromProduct(product, productImages);
+        List<CommentResponse> comments = commentRepository.findByProductId(product.getId())
+                    .stream()
+                    .map(CommentResponse::fromComment)
+                    .toList();
+                return ProductResponse.fromProduct(product, productImages,comments);
     }
 }

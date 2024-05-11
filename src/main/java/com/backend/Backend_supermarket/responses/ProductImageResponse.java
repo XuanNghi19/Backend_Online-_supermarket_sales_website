@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 @Data
 @AllArgsConstructor
@@ -23,7 +24,8 @@ public class ProductImageResponse {
     public static ProductImageResponse fromProductImage(ProductImage productImage){
         return ProductImageResponse.builder()
             .id(productImage.getId())
-            .imageUrl(productImage.getImageUrl())
+            .imageUrl("https://objectstorage.ap-singapore-1.oraclecloud.com/n/axegw7pib4cf/b/PXN_img/o/Products/" + (productImage.getImageUrl()).replaceAll(" ", "%20"))
             .build();
     }
+
 }

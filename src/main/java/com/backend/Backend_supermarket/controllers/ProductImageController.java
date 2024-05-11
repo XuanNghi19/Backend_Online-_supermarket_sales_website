@@ -1,6 +1,7 @@
 package com.backend.Backend_supermarket.controllers;
 
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.codec.net.URLCodec;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,9 +35,11 @@ import jakarta.transaction.Transactional;
 
 import org.springframework.web.bind.annotation.PutMapping;
 
+import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/productImage")
+@RequestMapping("${api.prefix}/productImages")
 public class ProductImageController {
     private final ProductImageService productImageService;
 
@@ -76,17 +81,12 @@ public class ProductImageController {
     }
 
     @GetMapping("/{imageName}")
-    public ResponseEntity<?> getImage(
-            @PathVariable("imageName") String imageUrl) {
+    public ResponseEntity<?> getImage(@PathVariable("imageName") String imageName) {
         try {
-            ProductImage productImage = productImageService.getProductImageByImageUrl(imageUrl);
-            Path path = Paths.get("uploads/"+productImage.getImageUrl());
-            UrlResource resource = new UrlResource(path.toUri());
-            return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG)
-                    .body(resource);
+            String baseUrl = "https://objectstorage.ap-singapore-1.oraclecloud.com/n/axegw7pib4cf/b/PXN_img/o/Products/";
+            String imageUrl = StringUtils.replaceEach(baseUrl + imageName, new String[]{" "}, new String[]{"%20"});
+            return ResponseEntity.ok(imageUrl);
         } catch (Exception e) {
-            // TODO: handle exception
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

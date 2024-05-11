@@ -2,6 +2,7 @@ package com.backend.Backend_supermarket.models;
 
 import com.backend.Backend_supermarket.dtos.ReceiptDTO;
 import com.backend.Backend_supermarket.dtos.ReceiptDetailDTO;
+import com.backend.Backend_supermarket.dtos.UpdateReceiptDetailDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,11 +29,11 @@ public class ReceiptDetail {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "unit")
-    private String unit;
+    @Column(name = "cost_of_product")
+    private Float costOfProduct;
 
     @Column(name = "quantity")
-    private Long quantity;
+    private int quantity;
 
     public static ReceiptDetail fromReceiptDetailDTO(
             ReceiptDetailDTO receiptDetailDTO,
@@ -42,8 +43,22 @@ public class ReceiptDetail {
         return ReceiptDetail.builder()
                 .receipt(receipt)
                 .product(product)
-                .unit(receiptDetailDTO.getUnit())
+                .costOfProduct(receiptDetailDTO.getCostOfProduct())
                 .quantity(receiptDetailDTO.getQuantity())
+                .build();
+    }
+
+    public static ReceiptDetail fromUpdateReceiptDetailDTO(
+            UpdateReceiptDetailDTO updateReceiptDetailDTO,
+            Receipt receipt,
+            Product product
+    ) {
+        return ReceiptDetail.builder()
+                .id(updateReceiptDetailDTO.getId())
+                .receipt(receipt)
+                .product(product)
+                .costOfProduct(updateReceiptDetailDTO.getCostOfProduct())
+                .quantity(updateReceiptDetailDTO.getQuantity())
                 .build();
     }
 }

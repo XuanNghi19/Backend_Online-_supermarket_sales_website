@@ -17,7 +17,7 @@ public class UpdateUserDTO {
     @JsonProperty("email")
     private String email;
 
-    @JsonProperty("fullname")
+    @JsonProperty("full_name")
     private String fullName;
 
     @JsonProperty("date_of_birth")

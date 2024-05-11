@@ -24,6 +24,11 @@ public class PartnerServiceImpl implements PartnerService{
     private final PartnerRepository partnerRepository;
 
     @Override
+    public Partner findPartnerById(Long id) {
+        return partnerRepository.findById(id).orElseThrow(()-> new RuntimeException("Khong tim thay partner voi " + id));
+    }
+
+    @Override
     public List<PartnerResponse> getAllPartner() {
         return partnerRepository.findAll()
                 .stream()

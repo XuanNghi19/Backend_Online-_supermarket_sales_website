@@ -36,7 +36,13 @@ public class ProductResponse {
     @JsonProperty("quantity")
     private int quantity;
 
-    public static ProductResponse fromProduct(Product product, List<ProductImageResponse> images){
+    @JsonProperty("sold")
+    private int sold;
+
+    @JsonProperty("comments")
+    private List<CommentResponse> comments;
+
+    public static ProductResponse fromProduct(Product product, List<ProductImageResponse> images, List<CommentResponse> comments){
         return ProductResponse.builder()
             .id(product.getId())
             .productName(product.getProductName())
@@ -45,6 +51,8 @@ public class ProductResponse {
             .description(product.getDescription())
             .quantity(product.getQuantity())
             .images(images)
+            .sold(product.getSold())
+            .comments(comments)
             .build();
     }
 }

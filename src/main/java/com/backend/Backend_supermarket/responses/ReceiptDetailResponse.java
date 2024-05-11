@@ -13,31 +13,31 @@ public class ReceiptDetailResponse {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("receipt")
-    private Receipt receipt;
+    @JsonProperty("receipt_id")
+    private Long receiptId;
 
     @JsonProperty("product")
     private Product product;
 
-    @JsonProperty("unit")
-    private String unit;
+    @JsonProperty("cost_of_product")
+    private Float costOfProduct;
 
     @JsonProperty("quantity")
-    private Long quantity;
+    private int quantity;
 
     @JsonProperty("unit_price")
-    private Double unitPrice = Double.valueOf(product.getPrice()) * quantity;
+    private Float unitPrice;
 
     public static ReceiptDetailResponse fromReceiptDetail(
-            ReceiptDetail receiptDetail,
-            Receipt receipt,
-            Product product
+            ReceiptDetail receiptDetail
     ) {
         return ReceiptDetailResponse.builder()
                 .id(receiptDetail.getId())
-                .receipt(receipt)
-                .product(product)
+                .receiptId(receiptDetail.getReceipt().getId())
+                .product(receiptDetail.getProduct())
+                .costOfProduct(receiptDetail.getCostOfProduct())
                 .quantity(receiptDetail.getQuantity())
+                .unitPrice(receiptDetail.getProduct().getPrice() * receiptDetail.getQuantity())
                 .build();
     }
 }
