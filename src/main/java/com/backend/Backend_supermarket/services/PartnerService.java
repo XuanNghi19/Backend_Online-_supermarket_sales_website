@@ -4,12 +4,14 @@ import java.util.List;
 
 import com.backend.Backend_supermarket.dtos.PartnerDTO;
 import com.backend.Backend_supermarket.dtos.UserDTO;
+import com.backend.Backend_supermarket.models.Partner;
 import com.backend.Backend_supermarket.responses.ManagementUserResponse;
 import com.backend.Backend_supermarket.responses.PartnerResponse;
 import com.backend.Backend_supermarket.responses.UserResponse;
 import org.springframework.data.domain.Page;
 
 public interface PartnerService {
+    public Partner findPartnerById(Long id);
     public List<PartnerResponse> getAllPartner();
     public Page<PartnerResponse> getAllPartnerWithPagination(int page, int pageSize);
     public PartnerResponse getPartnerInformation(Long partnerId);

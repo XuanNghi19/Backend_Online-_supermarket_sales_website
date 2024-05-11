@@ -12,18 +12,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface UserService {
-    public List<UserResponse> getAllClient();
-    public Page<UserResponse> getAllClientWithPagination(int page, int pageSize);
-    public List<UserResponse> getAllStaff();
-    public Page<UserResponse> getAllStaffWithPagination(int page, int pageSize);
-    public List<UserResponse> getAllStaffByRole(Role role);
-    public Page<UserResponse> getAllStaffByRoleWithPagination(Role role, int page, int pageSize);
-    public ManagementUserResponse getUserInformation(Long userId);
-    public String createUser(UserDTO userDTO) throws Exception;
-    public String updateUser(Long userId, UserDTO userDTO) throws Exception;
-    
     UserResponse register(UserDTO userDTO) throws Exception;
-    void deleteUser(Long id);
     LoginResponse login(String phoneNumber, String password) throws Exception;
     UserResponse getUserDetail(String token) throws Exception;
     UserResponse updateUserDetail(String token, UpdateUserDTO updateUserDTO) throws Exception;

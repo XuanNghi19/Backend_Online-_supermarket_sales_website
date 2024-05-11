@@ -78,7 +78,6 @@ public class UserController {
                         .map(FieldError::getDefaultMessage)
                         .toList();
                 // trả về danh sách lỗi
-                System.out.println("loooi");
                 return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), errorMessages.toString());
                 // return ResponseEntity.badRequest().body(errorMessages);
             }

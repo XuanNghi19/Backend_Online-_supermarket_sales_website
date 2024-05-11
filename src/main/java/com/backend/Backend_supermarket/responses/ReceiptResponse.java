@@ -3,10 +3,13 @@ package com.backend.Backend_supermarket.responses;
 import com.backend.Backend_supermarket.dtos.ReceiptDTO;
 import com.backend.Backend_supermarket.models.Partner;
 import com.backend.Backend_supermarket.models.Receipt;
+import com.backend.Backend_supermarket.models.ReceiptDetail;
 import com.backend.Backend_supermarket.models.User;
+import com.backend.Backend_supermarket.services.ReceiptDetailService;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
 @Data
 @Builder
 public class ReceiptResponse {
+
     @JsonProperty("id")
     private Long id;
 
@@ -21,18 +25,17 @@ public class ReceiptResponse {
     private String name;
 
     @JsonProperty("partner")
-    private Partner partner;
+    private PartnerResponse partnerResponse;
 
     @JsonProperty("user")
-    private User user;
+    private UserResponse userResponse;
 
     /*
-     * Hủy bỏ
+     * Đã tạo
      * Đang nhập hàng
-     * Đang chờ thanh toán
-     * Còn nợ
-     * Đã thanh toán
-     * Hoàn tất
+     * Đã nhập kho
+     * Đã hoàn tất
+     * Hủy bỏ
      * */
     @JsonProperty("status")
     private String status;
@@ -41,13 +44,13 @@ public class ReceiptResponse {
     private LocalDateTime deliveryDate;
 
     @JsonProperty("total_money")
-    private Double totalMoney;
+    private Float totalMoney;
 
     @JsonProperty("amount_paid")
-    private Double amountPaid;
+    private Float amountPaid;
 
     @JsonProperty("owe")
-    private Double owe = totalMoney - amountPaid;
+    private Float owe;
 
     @JsonProperty("note")
     private String note;
@@ -56,18 +59,18 @@ public class ReceiptResponse {
     private List<ReceiptDetailResponse> receiptDetailResponses;
 
     public static ReceiptResponse fromReceipt(
-            Receipt receipt,
-            Partner partner,
-            User user
+            Receipt receipt
     ) {
         return ReceiptResponse.builder()
                 .id(receipt.getId())
                 .name(receipt.getName())
-                .partner(partner)
-                .user(user)
+                .partnerResponse(PartnerResponse.fromPartner(receipt.getPartner()))
+                .userResponse(UserResponse.fromUser(receipt.getUser()))
                 .status(receipt.getStatus())
                 .deliveryDate(receipt.getDeliveryDate())
+                .totalMoney(receipt.getTotalMoney())
                 .amountPaid(receipt.getAmountPaid())
+                .owe(receipt.getTotalMoney() - receipt.getAmountPaid())
                 .note(receipt.getNote())
                 .build();
     }

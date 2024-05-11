@@ -1,10 +1,12 @@
 package com.backend.Backend_supermarket.controllers;
 
+import com.backend.Backend_supermarket.dtos.ManagerUserDTO;
 import com.backend.Backend_supermarket.dtos.UserDTO;
 import com.backend.Backend_supermarket.enums.Role;
 import com.backend.Backend_supermarket.responses.ManagementUserResponse;
 import com.backend.Backend_supermarket.responses.MessageResponse;
 import com.backend.Backend_supermarket.responses.UserResponse;
+import com.backend.Backend_supermarket.services.ManagerUserService;
 import com.backend.Backend_supermarket.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +20,16 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/userManagement")
+@RequestMapping("${api.prefix}/managementUser")
 public class ManagementUserController {
 
-    private final UserService userService;
+    private final ManagerUserService managerUserService;
 
     // lay danh sach khach hang
     @GetMapping("/clients")
     public ResponseEntity<?> getAllClient() {
         try {
-            List<UserResponse> clientList = userService.getAllClient();
+            List<ManagementUserResponse> clientList = managerUserService.getAllClient();
             return ResponseEntity.ok().body(clientList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -40,7 +42,7 @@ public class ManagementUserController {
             @PathVariable int pageSize
     ) {
         try {
-            Page<UserResponse> clientList = userService.getAllClientWithPagination(page, pageSize);
+            Page<ManagementUserResponse> clientList = managerUserService.getAllClientWithPagination(page, pageSize);
             return ResponseEntity.ok().body(clientList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -51,7 +53,7 @@ public class ManagementUserController {
     @GetMapping("/staffs")
     public ResponseEntity<?> getAllStaff() {
         try {
-            List<UserResponse> staffList = userService.getAllStaff();
+            List<ManagementUserResponse> staffList = managerUserService.getAllStaff();
             return ResponseEntity.ok().body(staffList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -64,7 +66,7 @@ public class ManagementUserController {
             @PathVariable int pageSize
     ) {
         try {
-            Page<UserResponse> staffList = userService.getAllStaffWithPagination(page, pageSize);
+            Page<ManagementUserResponse> staffList = managerUserService.getAllStaffWithPagination(page, pageSize);
             return ResponseEntity.ok().body(staffList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -75,7 +77,7 @@ public class ManagementUserController {
     @GetMapping("/staffs/{role}")
     public ResponseEntity<?> getAllStaffByRole(@PathVariable("role") Role staffRole) {
         try {
-            List<UserResponse> staffList = userService.getAllStaffByRole(staffRole);
+            List<ManagementUserResponse> staffList = managerUserService.getAllStaffByRole(staffRole);
             return ResponseEntity.ok().body(staffList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -89,7 +91,7 @@ public class ManagementUserController {
             @PathVariable int pageSize
     ) {
         try {
-            Page<UserResponse> staffList = userService.getAllStaffByRoleWithPagination(role, page, pageSize);
+            Page<ManagementUserResponse> staffList = managerUserService.getAllStaffByRoleWithPagination(role, page, pageSize);
             return ResponseEntity.ok().body(staffList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -100,7 +102,7 @@ public class ManagementUserController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserInformation(@PathVariable("id") Long userId) {
         try {
-            ManagementUserResponse managementUserResponse = userService.getUserInformation(userId);
+            ManagementUserResponse managementUserResponse = managerUserService.getUserInformation(userId);
             return ResponseEntity.ok().body(managementUserResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -109,7 +111,7 @@ public class ManagementUserController {
 
     @PostMapping("/insert")
     public ResponseEntity<?> createStaff(
-            @RequestBody @Valid UserDTO userDTO,
+            @RequestBody @Valid ManagerUserDTO managerUserDTO,
             BindingResult result
     ) {
         try {
@@ -120,17 +122,17 @@ public class ManagementUserController {
                         .toList();
                 return ResponseEntity.badRequest().body(errorMessages);
             }
-            String string = userService.createUser(userDTO);
-            return ResponseEntity.ok(new MessageResponse(string));
+            ManagementUserResponse managementUserResponse = managerUserService.createUser(managerUserDTO);
+            return ResponseEntity.ok().body(managementUserResponse);
         } catch (Exception e) {
             return ResponseEntity.ok().body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(
+    public ResponseEntity<?> managerUpdateUser(
             @PathVariable("id") Long userId,
-            @RequestBody @Valid UserDTO userDTO,
+            @RequestBody @Valid ManagerUserDTO managerUserDTO,
             BindingResult result
     ) {
         try {
@@ -141,20 +143,32 @@ public class ManagementUserController {
                         .toList();
                 return ResponseEntity.badRequest().body(errorMessages);
             }
-            String string = userService.updateUser(userId, userDTO);
-            return ResponseEntity.ok(new MessageResponse(string));
+            ManagementUserResponse managementUserResponse = managerUserService.updateUser(userId, managerUserDTO);
+            return ResponseEntity.ok().body(managementUserResponse);
         } catch (Exception e) {
-            return ResponseEntity.ok().body(e.getMessage());
+            return ResponseEntity.ok().body(new MessageResponse(e.getMessage()));
+        }
+    }
+    @PutMapping("/changePassword/{id}")
+    public ResponseEntity<?> changePassword(
+            @PathVariable("id") Long userId,
+            @RequestParam("password") String password
+    ) {
+        try {
+            String pass = managerUserService.changePassword(userId, password);
+            return ResponseEntity.ok().body(pass);
+        } catch (Exception e) {
+            return ResponseEntity.ok().body(new MessageResponse(e.getMessage()));
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(
+    public ResponseEntity<?> managerDeleteUser(
             @PathVariable("id") Long userId
     ) {
         try {
-            userService.deleteUser(userId);
-            return ResponseEntity.ok(new MessageResponse());
+            managerUserService.deleteUser(userId);
+            return ResponseEntity.ok(new MessageResponse("Xoa thanh cong!"));
         } catch (Exception e) {
             return ResponseEntity.ok().body(e.getMessage());
         }

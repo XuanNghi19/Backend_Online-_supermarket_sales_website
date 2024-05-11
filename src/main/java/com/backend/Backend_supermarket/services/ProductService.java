@@ -1,6 +1,7 @@
 package com.backend.Backend_supermarket.services;
 
 import com.backend.Backend_supermarket.dtos.ProductDTO;
+import com.backend.Backend_supermarket.models.Product;
 import com.backend.Backend_supermarket.responses.ProductResponse;
 
 
