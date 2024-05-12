@@ -77,7 +77,8 @@ public class WebSecurityConfig {
                                 String.format("%s/comments/**", apiPrefix))
                         .hasRole(Role.USER.toString())
                         .anyRequest().authenticated();
-                });
+                })
+                .cors(AbstractHttpConfigurer::disable);
         return http.build();
     }
 }

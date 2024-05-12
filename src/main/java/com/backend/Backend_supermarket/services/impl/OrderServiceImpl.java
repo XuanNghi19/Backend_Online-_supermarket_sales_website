@@ -13,12 +13,17 @@ import com.backend.Backend_supermarket.models.Order;
 import com.backend.Backend_supermarket.models.OrderDetail;
 import com.backend.Backend_supermarket.models.Product;
 import com.backend.Backend_supermarket.models.User;
+import com.backend.Backend_supermarket.repositorys.CommentRepository;
 import com.backend.Backend_supermarket.repositorys.OrderDetailRepository;
 import com.backend.Backend_supermarket.repositorys.OrderRepository;
+import com.backend.Backend_supermarket.repositorys.ProductImageRepository;
 import com.backend.Backend_supermarket.repositorys.ProductRepository;
 import com.backend.Backend_supermarket.repositorys.UserRepository;
+import com.backend.Backend_supermarket.responses.CommentResponse;
 import com.backend.Backend_supermarket.responses.OrderDetailResponse;
 import com.backend.Backend_supermarket.responses.OrderResponse;
+import com.backend.Backend_supermarket.responses.ProductImageResponse;
+import com.backend.Backend_supermarket.responses.ProductResponse;
 import com.backend.Backend_supermarket.services.OrderService;
 
 import jakarta.transaction.Transactional;
@@ -31,6 +36,8 @@ public class OrderServiceImpl implements OrderService{
     private final OrderDetailRepository orderDetailRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final ProductImageRepository productImageRepository;
+    private final CommentRepository commentRepository;
     private final JwtTokenUtils jwtTokenUtils;
     
     @Transactional
@@ -63,7 +70,8 @@ public class OrderServiceImpl implements OrderService{
             product.setQuantity(product.getQuantity() - orderDetailDTO.getNumberOfProducts());
             product.setSold(orderDetailDTO.getNumberOfProducts());
             productRepository.save(product);
-            orderDetailResponses.add(OrderDetailResponse.fromOrderDetail(orderDetail));
+            ProductResponse productResponse = getProductWithImagesAndComment(product);
+            orderDetailResponses.add(OrderDetailResponse.fromOrderDetail(orderDetail,productResponse));
         }
         response.setOrderDetails(orderDetailResponses);
         response.setTotalMoney(totalMoney);
@@ -112,10 +120,24 @@ public class OrderServiceImpl implements OrderService{
         OrderResponse response = OrderResponse.fromOrder(order);
         List<OrderDetailResponse> orderDetailResponses = orderDetailRepository.findByOrderId(order.getId())
             .stream()
-            .map(OrderDetailResponse::fromOrderDetail)
+            .map(orderDetail ->{
+                return OrderDetailResponse.fromOrderDetail(orderDetail, getProductWithImagesAndComment(orderDetail.getProduct()));
+            })
             .toList();
         response.setOrderDetails(orderDetailResponses);
         return response;
+    }
+
+    private ProductResponse getProductWithImagesAndComment(Product product){
+        List<ProductImageResponse> productImages = productImageRepository.findByProductId(product.getId())
+                    .stream()
+                    .map(ProductImageResponse::fromProductImage)
+                    .toList();
+        List<CommentResponse> comments = commentRepository.findByProductId(product.getId())
+                    .stream()
+                    .map(CommentResponse::fromComment)
+                    .toList();
+                return ProductResponse.fromProduct(product, productImages,comments);
     }
 
    
