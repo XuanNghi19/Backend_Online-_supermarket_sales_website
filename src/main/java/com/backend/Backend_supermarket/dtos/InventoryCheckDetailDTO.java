@@ -14,9 +14,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class InventoryCheckDetailDTO {
 
-    @JsonProperty("inventory_check_id")
-    private Long inventoryCheckId;
-
     @JsonProperty("product_id")
     private Long productId;
 

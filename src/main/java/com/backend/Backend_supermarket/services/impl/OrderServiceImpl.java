@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.backend.Backend_supermarket.repositorys.*;
+import com.backend.Backend_supermarket.responses.*;
 import org.springframework.stereotype.Service;
 
 import com.backend.Backend_supermarket.components.JwtTokenUtils;
@@ -13,12 +15,6 @@ import com.backend.Backend_supermarket.models.Order;
 import com.backend.Backend_supermarket.models.OrderDetail;
 import com.backend.Backend_supermarket.models.Product;
 import com.backend.Backend_supermarket.models.User;
-import com.backend.Backend_supermarket.repositorys.OrderDetailRepository;
-import com.backend.Backend_supermarket.repositorys.OrderRepository;
-import com.backend.Backend_supermarket.repositorys.ProductRepository;
-import com.backend.Backend_supermarket.repositorys.UserRepository;
-import com.backend.Backend_supermarket.responses.OrderDetailResponse;
-import com.backend.Backend_supermarket.responses.OrderResponse;
 import com.backend.Backend_supermarket.services.OrderService;
 
 import jakarta.transaction.Transactional;
@@ -32,6 +28,8 @@ public class OrderServiceImpl implements OrderService{
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final JwtTokenUtils jwtTokenUtils;
+    private final ProductImageRepository productImageRepository;
+    private final CommentRepository commentRepository;
     
     @Transactional
     @Override
@@ -63,7 +61,8 @@ public class OrderServiceImpl implements OrderService{
             product.setQuantity(product.getQuantity() - orderDetailDTO.getNumberOfProducts());
             product.setSold(orderDetailDTO.getNumberOfProducts());
             productRepository.save(product);
-            orderDetailResponses.add(OrderDetailResponse.fromOrderDetail(orderDetail));
+            ProductResponse productResponse = getProductWithImagesAndComment(product);
+            orderDetailResponses.add(OrderDetailResponse.fromOrderDetail(orderDetail, productResponse));
         }
         response.setOrderDetails(orderDetailResponses);
         response.setTotalMoney(totalMoney);
@@ -112,11 +111,23 @@ public class OrderServiceImpl implements OrderService{
         OrderResponse response = OrderResponse.fromOrder(order);
         List<OrderDetailResponse> orderDetailResponses = orderDetailRepository.findByOrderId(order.getId())
             .stream()
-            .map(OrderDetailResponse::fromOrderDetail)
+            .map(orderDetail ->{
+                return OrderDetailResponse.fromOrderDetail(orderDetail, getProductWithImagesAndComment(orderDetail.getProduct()));
+            })
             .toList();
         response.setOrderDetails(orderDetailResponses);
         return response;
     }
 
-   
+    private ProductResponse getProductWithImagesAndComment(Product product){
+        List<ProductImageResponse> productImages = productImageRepository.findByProductId(product.getId())
+                .stream()
+                .map(ProductImageResponse::fromProductImage)
+                .toList();
+        List<CommentResponse> comments = commentRepository.findByProductId(product.getId())
+                .stream()
+                .map(CommentResponse::fromComment)
+                .toList();
+        return ProductResponse.fromProduct(product, productImages,comments);
+    }
 }

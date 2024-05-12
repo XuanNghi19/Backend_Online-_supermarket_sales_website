@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface InventoryCheckRepository extends JpaRepository<InventoryCheck, Long> {
-    @Query("SELECT r FROM Receipt r WHERE (" +
+    @Query("SELECT r FROM InventoryCheck r WHERE (" +
             "name IS NULL OR r.name LIKE %:name%)" +
             "AND (:status IS NULL OR r.status LIKE %:status%)" +
             "AND (:startDate IS NULL OR r.createdAt >= :startDate)" +

@@ -100,6 +100,6 @@ public class InventoryCheckDetailServiceImpl implements InventoryCheckDetailServ
         if(!inventoryCheckRepository.existsById(inventoryCheckId)) {
             throw new Exception("Khong ton tai phieu kiem kho voi id: " + inventoryCheckId);
         }
-        inventoryCheckRepository.deleteById(inventoryCheckId);
+        inventoryCheckDetailRepository.deleteAllByInventoryCheckId(inventoryCheckId);
     }
 }
