@@ -49,5 +49,5 @@ public class UpdateReceiptDTO {
     private String note;
 
     @JsonProperty("UpdateReceiptDetailDTOS")
-    private List<UpdateReceiptDetailDTO> receiptDetailDTOS;
+    private List<UpdateReceiptDetailDTO> updateReceiptDetailDTOS;
 }

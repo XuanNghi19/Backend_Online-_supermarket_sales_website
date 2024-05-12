@@ -18,6 +18,5 @@ public interface ReceiptDetailService {
     public void updateReceiptDetail(UpdateReceiptDetailDTO updateReceiptDetailDTO) throws Exception;
     public void addProductQuantity(Long productId, int addQuantity) throws Exception;
     public void deleteReceiptDetail(Long receiptDetailId) throws Exception;
-
     public void deleteAllByReceiptId(Long receiptId) throws Exception;
 }

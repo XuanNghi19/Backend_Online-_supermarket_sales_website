@@ -104,3 +104,4 @@ CROSS JOIN img
 ORDER BY p.id, img.img_num;
 
 Select * from products;
+Select * from users;

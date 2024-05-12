@@ -31,10 +31,17 @@ public class ReceiptServiceImpl implements ReceiptService {
                 .stream().map(ReceiptResponse::fromReceipt)
                 .collect(Collectors.toList());
     }
-
+    @Override
+    public List<ReceiptResponse> searchReceipts(String name, LocalDateTime startDate, LocalDateTime endDate, String status) throws Exception {
+        return receiptRepository.findByNameAndStatusAndCreateAtBetween(name, status, startDate, endDate)
+                .stream().map(ReceiptResponse::fromReceipt)
+                .collect(Collectors.toList());
+    }
     @Override
     public ReceiptResponse getReceiptInformation(Long receiptId) {
-        ReceiptResponse receiptResponse = receiptRepository.findById(receiptId).map(ReceiptResponse::fromReceipt).orElseThrow(() -> new RuntimeException(""));
+        ReceiptResponse receiptResponse = receiptRepository.findById(receiptId)
+                .map(ReceiptResponse::fromReceipt)
+                .orElseThrow(() -> new RuntimeException("Khong ton tai phieu nhap kho voi id: " + receiptId));
         receiptResponse.setReceiptDetailResponses(receiptDetailService.getAllReceiptDetailResponseByReceiptId(receiptResponse.getId()));
         return receiptResponse;
     }
@@ -64,7 +71,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
         Receipt updateReceipt = Receipt.fromUpdateReceiptDTO(receipt, updateReceiptDTO, partner, user);
         updateReceipt = receiptRepository.save(updateReceipt);
-        for (var x : updateReceiptDTO.getReceiptDetailDTOS()) {
+        for (var x : updateReceiptDTO.getUpdateReceiptDetailDTOS()) {
             if (Objects.equals(x.getStatus(), "none")) {
                 continue;
             } else if (Objects.equals(x.getStatus(), "delete")) {
@@ -95,16 +102,9 @@ public class ReceiptServiceImpl implements ReceiptService {
         Receipt receipt = receiptRepository.findById(receiptId)
                 .orElseThrow(() -> new Exception("Khong ton tai phieu nhap kho voi id " + receiptId));
         if (Objects.equals(receipt.getStatus(), "Hủy bỏ")) {
-            throw new Exception("Chi co the xoa phieu co trang thai Hủy bỏ");
+            throw new Exception("Chi co the xoa phieu nhap kho co trang thai Hủy bỏ");
         }
         receiptDetailService.deleteAllByReceiptId(receiptId);
         receiptRepository.deleteById(receiptId);
-    }
-
-    @Override
-    public List<ReceiptResponse> searchReceipts(String name, LocalDateTime startDate, LocalDateTime endDate, String status) throws Exception {
-        return receiptRepository.findByNameAndStatusAndCreateAtBetween(name, status, startDate, endDate)
-                .stream().map(ReceiptResponse::fromReceipt)
-                .collect(Collectors.toList());
     }
 }

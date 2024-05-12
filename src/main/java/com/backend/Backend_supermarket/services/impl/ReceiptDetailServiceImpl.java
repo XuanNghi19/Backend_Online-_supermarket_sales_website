@@ -79,7 +79,7 @@ public class ReceiptDetailServiceImpl implements ReceiptDetailService {
     @Override
     public void deleteReceiptDetail(Long receiptDetailId) throws Exception {
         if(!receiptDetailRepository.existsById(receiptDetailId)) {
-            throw new Exception("Khong ton tai chi tiet phieu voi " + receiptDetailId +" nay!");
+            throw new Exception("Khong ton tai chi tiet phieu nhap kho voi " + receiptDetailId +" nay!");
         }
         receiptDetailRepository.deleteById(receiptDetailId);
     }
@@ -87,7 +87,7 @@ public class ReceiptDetailServiceImpl implements ReceiptDetailService {
     @Override
     public void deleteAllByReceiptId(Long receiptId) throws Exception {
         if(!receiptRepository.existsById(receiptId)) {
-            throw new Exception("Khong ton tai phieu voi " + receiptId + " nay!");
+            throw new Exception("Khong ton tai phieu nhap kho voi " + receiptId + " nay!");
         }
         receiptDetailRepository.deleteAllByReceiptId(receiptId);
     }

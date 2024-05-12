@@ -1,6 +1,7 @@
 package com.backend.Backend_supermarket.responses;
 
 import com.backend.Backend_supermarket.dtos.InventoryCheckDetailDTO;
+import com.backend.Backend_supermarket.dtos.UpdateInventoryCheckDetailDTO;
 import com.backend.Backend_supermarket.models.InventoryCheck;
 import com.backend.Backend_supermarket.models.InventoryCheckDetail;
 import com.backend.Backend_supermarket.models.Product;
@@ -15,23 +16,14 @@ public class InventoryCheckDetailResponse {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("inventory_check")
-    private InventoryCheck inventoryCheck;
+    @JsonProperty("inventory_check_id")
+    private Long inventoryCheckId;
 
-    @JsonProperty("product")
-    private Product product;
-
-    @JsonProperty("unit")
-    private String unit;
+    @JsonProperty("product_id")
+    private Long productId;
 
     @JsonProperty("actual_inventory")
     private int actualInventory;
-
-    @JsonProperty("systemInventory")
-    private int systemInventory = product.getQuantity();
-
-    @JsonProperty("different")
-    private int different = actualInventory - systemInventory;
 
     @JsonProperty("reason_missing")
     private String reasonMissing;
@@ -40,18 +32,29 @@ public class InventoryCheckDetailResponse {
     private String note;
 
     public static InventoryCheckDetailResponse fromInventoryCheckDetail(
-            InventoryCheckDetail inventoryCheckDetail,
-            InventoryCheck inventoryCheck,
-            Product product
+            InventoryCheckDetail inventoryCheckDetail
     ) {
         return InventoryCheckDetailResponse.builder()
                 .id(inventoryCheckDetail.getId())
-                .inventoryCheck(inventoryCheck)
-                .product(product)
-                .unit(inventoryCheckDetail.getUnit())
+                .inventoryCheckId(inventoryCheckDetail.getInventoryCheck().getId())
+                .productId(inventoryCheckDetail.getProduct().getId())
                 .actualInventory(inventoryCheckDetail.getActualInventory())
                 .reasonMissing(inventoryCheckDetail.getReasonMissing())
                 .note(inventoryCheckDetail.getNote())
+                .build();
+    }
+
+    public static InventoryCheckDetailResponse fromUpdateInventoryCheckDetailDTO(
+            UpdateInventoryCheckDetailDTO updateInventoryCheckDetailDTO
+
+    ) {
+        return InventoryCheckDetailResponse.builder()
+                .id(updateInventoryCheckDetailDTO.getId())
+                .inventoryCheckId(updateInventoryCheckDetailDTO.getInventoryCheckId())
+                .productId(updateInventoryCheckDetailDTO.getProductId())
+                .actualInventory(updateInventoryCheckDetailDTO.getActualInventory())
+                .reasonMissing(updateInventoryCheckDetailDTO.getReasonMissing())
+                .note(updateInventoryCheckDetailDTO.getNote())
                 .build();
     }
 }
