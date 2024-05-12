@@ -33,7 +33,7 @@ public class ReceiptController {
 
     @PostMapping("/search")
     public ResponseEntity<?> searchReceipts(
-            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "startDate", required = false) LocalDateTime startDate,
             @RequestParam(value = "endDate", required = false) LocalDateTime endDate

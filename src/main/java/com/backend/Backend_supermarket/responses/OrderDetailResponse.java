@@ -8,15 +8,18 @@ import lombok.Builder;
 
 @Builder
 public class OrderDetailResponse {
-    @JsonProperty("product")
-    private Product product;
+    @JsonProperty("product_response")
+    private ProductResponse productResponse;
 
     @JsonProperty("number_of_products")
     private int numberOfProducts;
 
-    public static OrderDetailResponse fromOrderDetail(OrderDetail orderDetail){
+    public static OrderDetailResponse fromOrderDetail(
+            OrderDetail orderDetail,
+            ProductResponse productResponse
+    ){
         return OrderDetailResponse.builder()
-            .product(orderDetail.getProduct())
+            .productResponse(productResponse)
             .numberOfProducts(orderDetail.getNumberOfProducts())
             .build();
     }

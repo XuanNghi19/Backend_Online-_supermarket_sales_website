@@ -13,6 +13,7 @@ import com.backend.Backend_supermarket.services.InventoryCheckDetailService;
 import com.backend.Backend_supermarket.services.InventoryCheckService;
 import com.backend.Backend_supermarket.services.ManagerUserService;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -97,6 +98,7 @@ public class InventoryCheckServiceImpl implements InventoryCheckService {
     }
 
     @Override
+    @Transactional
     public void deleteInventoryCheck(Long inventoryCheckId) throws Exception {
         InventoryCheck inventoryCheck = inventoryCheckRepository.findById(inventoryCheckId)
                 .orElseThrow(() -> new Exception("Khong ton tai phieu kiem kho voi " + inventoryCheckId));
