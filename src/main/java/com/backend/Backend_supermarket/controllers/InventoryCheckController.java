@@ -115,4 +115,27 @@ public class InventoryCheckController {
             return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }
+
+    @PutMapping("/productVerifications")
+    public ResponseEntity<?> productVerifications(
+            @RequestBody @Valid UpdateInventoryCheckDTO updateInventoryCheckDTO,
+            BindingResult result
+    ) {
+        try {
+
+            if(result.hasErrors()) {
+                List<String> errorMessages = result.getFieldErrors()
+                        .stream()
+                        .map(FieldError::getDefaultMessage)
+                        .toList();
+
+                return ResponseEntity.badRequest().body(errorMessages);
+            }
+
+            InventoryCheckResponse inventoryCheckResponse = inventoryCheckService.productVerifications(updateInventoryCheckDTO);
+            return ResponseEntity.ok().body(inventoryCheckResponse);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+        }
+    }
 }
