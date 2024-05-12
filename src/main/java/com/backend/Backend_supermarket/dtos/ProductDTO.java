@@ -23,6 +23,9 @@ public class ProductDTO {
     @JsonProperty("price")
     private float price;
 
+    @JsonProperty("unit")
+    private String unit;
+
     @NotNull
     @Min(value = 1)
     @JsonProperty("category_id")

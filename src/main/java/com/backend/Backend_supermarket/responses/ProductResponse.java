@@ -24,6 +24,9 @@ public class ProductResponse {
     @JsonProperty("price")
     private float price;
 
+    @JsonProperty("unit")
+    private String unit;
+
     @JsonProperty("category_id")
     private Long categoryId;
 
@@ -47,6 +50,7 @@ public class ProductResponse {
             .id(product.getId())
             .productName(product.getProductName())
             .price(product.getPrice())
+            .unit(product.getUnit())
             .categoryId(product.getCategory().getId())
             .description(product.getDescription())
             .quantity(product.getQuantity())

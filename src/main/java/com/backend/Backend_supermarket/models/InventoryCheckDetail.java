@@ -1,6 +1,7 @@
 package com.backend.Backend_supermarket.models;
 
 import com.backend.Backend_supermarket.dtos.InventoryCheckDetailDTO;
+import com.backend.Backend_supermarket.dtos.UpdateInventoryCheckDetailDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -25,9 +26,6 @@ public class InventoryCheckDetail {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(name = "unit")
-    private String unit;
-
     @Column(name = "actual_inventory")
     private int actualInventory;
 
@@ -45,10 +43,23 @@ public class InventoryCheckDetail {
         return InventoryCheckDetail.builder()
                 .inventoryCheck(inventoryCheck)
                 .product(product)
-                .unit(inventoryCheckDetailDTO.getUnit())
                 .actualInventory(inventoryCheckDetailDTO.getActualInventory())
                 .reasonMissing(inventoryCheckDetailDTO.getReasonMissing())
                 .note(inventoryCheckDetailDTO.getNote())
+                .build();
+    }
+
+    public static InventoryCheckDetail fromUpdateInventoryCheckDetailDTO(
+            UpdateInventoryCheckDetailDTO updateInventoryCheckDetailDTO,
+            InventoryCheck inventoryCheck,
+            Product product
+    ) {
+        return InventoryCheckDetail.builder()
+                .inventoryCheck(inventoryCheck)
+                .product(product)
+                .actualInventory(updateInventoryCheckDetailDTO.getActualInventory())
+                .reasonMissing(updateInventoryCheckDetailDTO.getReasonMissing())
+                .note(updateInventoryCheckDetailDTO.getNote())
                 .build();
     }
 }

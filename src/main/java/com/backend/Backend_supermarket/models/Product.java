@@ -2,6 +2,7 @@ package com.backend.Backend_supermarket.models;
 
 import com.backend.Backend_supermarket.dtos.ProductDTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,9 @@ public class Product {
     @Column(name = "price")
     private Float price ;
 
+    @Column(name = "unit")
+    private String unit;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -39,6 +43,7 @@ public class Product {
         return Product.builder()
             .productName(productDto.getProductName())
             .price(productDto.getPrice())
+            .unit(productDto.getUnit())
             .category(category)
             .description(productDto.getDescription())
             .quantity(productDto.getQuantity())

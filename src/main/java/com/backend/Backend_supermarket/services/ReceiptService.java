@@ -10,14 +10,10 @@ import java.util.List;
 
 public interface ReceiptService {
     public List<ReceiptResponse> getAllReceipt();
-
-    public List<ReceiptResponse> searchReceipts(String name, LocalDateTime startDate, LocalDateTime endDate, String status) throws Exception;
     public ReceiptResponse getReceiptInformation(Long receiptId);
-
+    public List<ReceiptResponse> searchReceipts(String name, LocalDateTime startDate, LocalDateTime endDate, String status) throws Exception;
     public ReceiptResponse createReceipt(ReceiptDTO receiptDTO) throws Exception;
-
     public ReceiptResponse updateReceipt(UpdateReceiptDTO updateReceiptDTO) throws Exception;
-
     public void deleteReceipt(Long receiptId) throws Exception;
 
 }
