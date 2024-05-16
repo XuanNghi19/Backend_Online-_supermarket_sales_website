@@ -29,10 +29,24 @@ public class CommentResponse {
 
     public static CommentResponse fromComment(Comment comment){
         return CommentResponse.builder()
-            .username(comment.getUser().getUsername())
-            .content(comment.getContent())
-            .star(comment.getStar())
-            .createdAt(comment.getCreatedAt())
-            .build();
+                .username(formatUsername(comment.getUser().getFullName()))
+                .content(comment.getContent())
+                .star(comment.getStar())
+                .createdAt(comment.getCreatedAt())
+                .build();
+    }
+
+    private static String formatUsername(String name){
+        String tmp = "";
+        String[] words = name.split("\\s++");
+        for(int j = 0; j < words.length - 1; j ++){
+            tmp += words[j].charAt(0);
+            for(int i = 1; i < words[j].length(); i++){
+                tmp += "*";
+            }
+            tmp += " ";
+        }
+        tmp += words[words.length - 1];
+        return tmp;
     }
 }
