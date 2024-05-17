@@ -29,11 +29,11 @@ public class CommentResponse {
 
     public static CommentResponse fromComment(Comment comment){
         return CommentResponse.builder()
-                .username(formatUsername(comment.getUser().getFullName()))
-                .content(comment.getContent())
-                .star(comment.getStar())
-                .createdAt(comment.getCreatedAt())
-                .build();
+            .username(formatUsername(comment.getUser().getFullName()))
+            .content(comment.getContent())
+            .star(comment.getStar())
+            .createdAt(comment.getCreatedAt())
+            .build();
     }
 
     private static String formatUsername(String name){
