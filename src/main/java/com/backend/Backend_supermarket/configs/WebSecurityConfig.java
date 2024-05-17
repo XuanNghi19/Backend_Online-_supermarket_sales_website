@@ -58,6 +58,39 @@ public class WebSecurityConfig {
                                 String.format("%s/users/login", apiPrefix))
                         .permitAll()
 //////////////////////////////////////////////////////////////////////////////////////////////////
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                String.format("%s/users/**", apiPrefix))
+                        .hasAnyRole(Role.USER.toString(), Role.ADMIN.toString(), Role.WAREHOUSE.toString(), Role.SALES.toString())
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                String.format("%s/users/**", apiPrefix))
+                        .hasAnyRole(Role.USER.toString(), Role.ADMIN.toString(), Role.WAREHOUSE.toString(), Role.SALES.toString())
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                String.format("%s/users/**", apiPrefix),
+                                String.format("%s/users/uploads", apiPrefix))
+                        .hasAnyRole(Role.USER.toString(), Role.ADMIN.toString(), Role.WAREHOUSE.toString(), Role.SALES.toString())
+//////////////////////////////////////////////////////////////////////////////////////////////////
+                        // USER
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                String.format("%s/orders/**", apiPrefix))
+                        .hasAnyRole(Role.USER.toString())
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                String.format("%s/comments", apiPrefix),
+                                String.format("%s/orders", apiPrefix))
+                        .hasRole(Role.USER.toString())
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                String.format("%s/comments/**", apiPrefix))
+                        .hasRole(Role.USER.toString())
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                String.format("%s/comments/**", apiPrefix))
+                        .hasRole(Role.USER.toString())
+//////////////////////////////////////////////////////////////////////////////////////////////////
                         // ADMIN
                         .requestMatchers(
                                 HttpMethod.GET,
@@ -116,35 +149,6 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 HttpMethod.DELETE)
                         .hasAnyRole(Role.SALES.toString(), Role.ADMIN.toString())
-//////////////////////////////////////////////////////////////////////////////////////////////////
-                        // USER
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                String.format("%s/orders/**", apiPrefix))
-                        .hasAnyRole(Role.USER.toString())
-                        .requestMatchers(
-                                HttpMethod.POST,
-                                String.format("%s/comments", apiPrefix),
-                                String.format("%s/orders", apiPrefix))
-                        .hasRole(Role.USER.toString())
-                        .requestMatchers(
-                                HttpMethod.PUT,
-                                String.format("%s/comments/**", apiPrefix))
-                        .hasRole(Role.USER.toString())
-                        .requestMatchers(
-                                HttpMethod.DELETE,
-                                String.format("%s/comments/**", apiPrefix))
-                        .hasRole(Role.USER.toString())
-//////////////////////////////////////////////////////////////////////////////////////////////////
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                String.format("%s/users/**", apiPrefix))
-                        .hasAnyRole(Role.USER.toString(), Role.ADMIN.toString(), Role.WAREHOUSE.toString(), Role.SALES.toString())
-                        .requestMatchers(
-                                HttpMethod.POST,
-                                String.format("%s/users/uploads", apiPrefix))
-                        .hasAnyRole(Role.USER.toString(), Role.ADMIN.toString(), Role.WAREHOUSE.toString(), Role.SALES.toString())
-
                         .anyRequest().authenticated();
                 });
         return http.build();

@@ -14,10 +14,10 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByRoleNot(Role role);
     List<User> findByRole(Role role);
-    List<User> findByRoleAndActiveTrue(Role role);
-    Page<User> findByRoleAndActiveTrue(Role role, Pageable pageable);
-    List<User> findByRoleNotAndActiveTrue(Role role);
-    Page<User> findByRoleNotAndActiveTrue(Role role, Pageable pageable);
+    List<User> findByRoleAndActiveTrueOrderByCreatedAtDesc(Role role);
+    Page<User> findByRoleAndActiveTrueOrderByCreatedAtDesc(Role role, Pageable pageable);
+    List<User> findByRoleNotAndActiveTrueOrderByCreatedAtDesc(Role role);
+    Page<User> findByRoleNotAndActiveTrueOrderByCreatedAtDesc(Role role, Pageable pageable);
     Boolean existsByEmail(String email);
 
 
