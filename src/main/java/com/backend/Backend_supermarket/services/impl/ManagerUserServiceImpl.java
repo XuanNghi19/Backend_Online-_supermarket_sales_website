@@ -34,7 +34,7 @@ public class ManagerUserServiceImpl implements ManagerUserService {
 
     public List<ManagementUserResponse> getAllClient() {
 
-        return userRepository.findByRoleAndActiveTrue(Role.USER)
+        return userRepository.findByRoleAndActiveTrueOrderByCreatedAtDesc(Role.USER)
                 .stream()
                 .map(ManagementUserResponse::fromUser)
                 .toList();
@@ -42,7 +42,7 @@ public class ManagerUserServiceImpl implements ManagerUserService {
 
     @Override
     public Page<ManagementUserResponse> getAllClientWithPagination(int page, int pageSize) {
-        return  userRepository.findByRoleAndActiveTrue(
+        return  userRepository.findByRoleAndActiveTrueOrderByCreatedAtDesc(
                         Role.USER,
                         PageRequest.of(page - 1, pageSize))
                 .map(ManagementUserResponse::fromUser);
@@ -50,7 +50,7 @@ public class ManagerUserServiceImpl implements ManagerUserService {
 
     @Override
     public List<ManagementUserResponse> getAllStaff() {
-        return userRepository.findByRoleNotAndActiveTrue(Role.USER)
+        return userRepository.findByRoleNotAndActiveTrueOrderByCreatedAtDesc(Role.USER)
                 .stream()
                 .map(ManagementUserResponse::fromUser)
                 .toList();
@@ -58,7 +58,7 @@ public class ManagerUserServiceImpl implements ManagerUserService {
 
     @Override
     public Page<ManagementUserResponse> getAllStaffWithPagination(int page, int pageSize) {
-        return userRepository.findByRoleNotAndActiveTrue(
+        return userRepository.findByRoleNotAndActiveTrueOrderByCreatedAtDesc(
                         Role.USER,
                         PageRequest.of(page - 1, pageSize))
                 .map(ManagementUserResponse::fromUser);
@@ -66,7 +66,7 @@ public class ManagerUserServiceImpl implements ManagerUserService {
 
     @Override
     public List<ManagementUserResponse> getAllStaffByRole(Role role) {
-        return userRepository.findByRoleAndActiveTrue(role)
+        return userRepository.findByRoleAndActiveTrueOrderByCreatedAtDesc(role)
                 .stream()
                 .map(ManagementUserResponse::fromUser)
                 .toList();
@@ -74,7 +74,7 @@ public class ManagerUserServiceImpl implements ManagerUserService {
 
     @Override
     public Page<ManagementUserResponse> getAllStaffByRoleWithPagination(Role role, int page, int pageSize) {
-        return userRepository.findByRoleAndActiveTrue(
+        return userRepository.findByRoleAndActiveTrueOrderByCreatedAtDesc(
                         role,
                         PageRequest.of(page - 1, pageSize))
                 .map(ManagementUserResponse::fromUser);
