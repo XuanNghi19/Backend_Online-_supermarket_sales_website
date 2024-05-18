@@ -106,7 +106,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public SalesOrderResponse changeStatusOrder(Long orderId, UpdateOrderDTO updateOrderDTO) throws Exception {
         Order updateOrder = orderRepository.findById(orderId).orElseThrow(()-> new Exception("Khong tim thay order voi id: " + orderId));
-        if(!Objects.equals(updateOrderDTO.getPaymentStatus(), "")) updateOrder.setPaymentStatus(updateOrder.getPaymentStatus());
+        if(!Objects.equals(updateOrderDTO.getPaymentStatus(), "")) updateOrder.setPaymentStatus(updateOrderDTO.getPaymentStatus());
         if(!Objects.equals(updateOrderDTO.getStatus(), "")) updateOrder.setStatus(updateOrderDTO.getStatus());
 
         return SalesOrderResponse.fromOrder(orderRepository.save(updateOrder));
