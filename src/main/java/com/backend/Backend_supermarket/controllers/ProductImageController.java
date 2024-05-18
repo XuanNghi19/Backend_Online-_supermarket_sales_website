@@ -43,37 +43,51 @@ import static org.springframework.web.util.UriComponentsBuilder.fromHttpUrl;
 public class ProductImageController {
     private final ProductImageService productImageService;
 
-    @PostMapping(value = "/uploads/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    @PostMapping(value = "/uploads/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<?> createProductImage(
+//            @PathVariable("id") Long productId,
+//            @ModelAttribute("files") List<MultipartFile> files) {
+//        try {
+//            List<ProductImage> images = new ArrayList<>();
+//            // kiểm tra file có null hay không
+//            files = files == null ? new ArrayList<>() : files;
+//            if (files.size() > ProductImage.MAXIMUM_IMAGES
+//                    - productImageService.getSizeProductImageWithProductId(productId)) {
+//                return ResponseEntity.badRequest().body("Một sản phẩm tối đa chỉ nhận 3 ảnh");
+//            }
+//            for (MultipartFile file : files) {
+//                if (file.isEmpty())
+//                    continue;
+//                if (file.getSize() > 10 * 1024 * 1024) {
+//                    return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("Dung lượng file ảnh quá lớn");
+//                }
+//                // kiểm tra xem có phải file ảnh không
+//                String contentType = file.getContentType();
+//                if (contentType == null || !contentType.startsWith("image/")) {
+//                    return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+//                            .body("Định dạng file phải ảnh file ảnh");
+//                }
+//                // lưu ảnh vào server
+//                String filename = storeImage(file);
+//                // lưu tên ảnh vào database
+//                ProductImage productImage = productImageService.createProductImageWithProductId(productId, filename);
+//                images.add(productImage);
+//            }
+//            return ResponseEntity.ok().body(images);
+//        } catch (Exception e) {
+//            // TODO: handle exception
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+
+    @PostMapping("/uploads/{id}")
     public ResponseEntity<?> createProductImage(
             @PathVariable("id") Long productId,
-            @ModelAttribute("files") List<MultipartFile> files) {
+            @PathVariable("urlImage") String urlImage
+    ) {
         try {
-            List<ProductImage> images = new ArrayList<>();
-            // kiểm tra file có null hay không
-            files = files == null ? new ArrayList<>() : files;
-            if (files.size() > ProductImage.MAXIMUM_IMAGES
-                    - productImageService.getSizeProductImageWithProductId(productId)) {
-                return ResponseEntity.badRequest().body("Một sản phẩm tối đa chỉ nhận 3 ảnh");
-            }
-            for (MultipartFile file : files) {
-                if (file.isEmpty())
-                    continue;
-                if (file.getSize() > 10 * 1024 * 1024) {
-                    return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("Dung lượng file ảnh quá lớn");
-                }
-                // kiểm tra xem có phải file ảnh không
-                String contentType = file.getContentType();
-                if (contentType == null || !contentType.startsWith("image/")) {
-                    return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-                            .body("Định dạng file phải ảnh file ảnh");
-                }
-                // lưu ảnh vào server
-                String filename = storeImage(file);
-                // lưu tên ảnh vào database
-                ProductImage productImage = productImageService.createProductImageWithProductId(productId, filename);
-                images.add(productImage);
-            }
-            return ResponseEntity.ok().body(images);
+            ProductImage productImage = productImageService.createProductImageWithProductId(productId, urlImage);
+            return ResponseEntity.ok().body(productImage);
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -91,37 +105,51 @@ public class ProductImageController {
         }
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<?> putMethodName(
+//            @PathVariable("id") Long productId,
+//            @ModelAttribute("files") List<MultipartFile> files) {
+//        try {
+//            List<ProductImage> images = new ArrayList<>();
+//            // kiểm tra file có null hay không
+//            files = files == null ? new ArrayList<>() : files;
+//            if (files.size() > ProductImage.MAXIMUM_IMAGES
+//                    - productImageService.getSizeProductImageWithProductId(productId)) {
+//                return ResponseEntity.badRequest().body("Một sản phẩm tối đa chỉ nhận 3 ảnh");
+//            }
+//            for (MultipartFile file : files) {
+//                if (file.isEmpty())
+//                    continue;
+//                if (file.getSize() > 10 * 1024 * 1024) {
+//                    return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("Dung lượng file ảnh quá lớn");
+//                }
+//                // kiểm tra xem có phải file ảnh không
+//                String contentType = file.getContentType();
+//                if (contentType == null || !contentType.startsWith("image/")) {
+//                    return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+//                            .body("Định dạng file phải ảnh file ảnh");
+//                }
+//                // lưu ảnh vào server
+//                String filename = storeImage(file);
+//                // lưu tên ảnh vào database
+//                ProductImage productImage = productImageService.updateProductImageByImageUrl(productId, filename);
+//                images.add(productImage);
+//            }
+//            return ResponseEntity.ok().body(images);
+//        } catch (Exception e) {
+//            // TODO: handle exception
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+
+    @PutMapping("/{id}")
     public ResponseEntity<?> putMethodName(
             @PathVariable("id") Long productId,
-            @ModelAttribute("files") List<MultipartFile> files) {
+            @PathVariable("urlImage") String urlImage
+    ) {
         try {
-            List<ProductImage> images = new ArrayList<>();
-            // kiểm tra file có null hay không
-            files = files == null ? new ArrayList<>() : files;
-            if (files.size() > ProductImage.MAXIMUM_IMAGES
-                    - productImageService.getSizeProductImageWithProductId(productId)) {
-                return ResponseEntity.badRequest().body("Một sản phẩm tối đa chỉ nhận 3 ảnh");
-            }
-            for (MultipartFile file : files) {
-                if (file.isEmpty())
-                    continue;
-                if (file.getSize() > 10 * 1024 * 1024) {
-                    return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("Dung lượng file ảnh quá lớn");
-                }
-                // kiểm tra xem có phải file ảnh không
-                String contentType = file.getContentType();
-                if (contentType == null || !contentType.startsWith("image/")) {
-                    return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-                            .body("Định dạng file phải ảnh file ảnh");
-                }
-                // lưu ảnh vào server
-                String filename = storeImage(file);
-                // lưu tên ảnh vào database
-                ProductImage productImage = productImageService.updateProductImageByImageUrl(productId, filename);
-                images.add(productImage);
-            }
-            return ResponseEntity.ok().body(images);
+            ProductImage productImage = productImageService.updateProductImageByImageUrl(productId, urlImage);
+            return ResponseEntity.ok().body(productImage);
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.badRequest().body(e.getMessage());

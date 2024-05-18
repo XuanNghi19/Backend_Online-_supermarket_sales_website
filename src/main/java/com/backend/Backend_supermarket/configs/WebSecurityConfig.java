@@ -72,6 +72,16 @@ public class WebSecurityConfig {
                                 String.format("%s/users/uploads", apiPrefix))
                         .hasAnyRole(Role.USER.toString(), Role.ADMIN.toString(), Role.WAREHOUSE.toString(), Role.SALES.toString())
 //////////////////////////////////////////////////////////////////////////////////////////////////
+                        // SALES
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                String.format("%s/orders/getAllOrder", apiPrefix))
+                        .hasAnyRole(Role.SALES.toString(), Role.ADMIN.toString())
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                String.format("%s/orders/update/**", apiPrefix))
+                        .hasAnyRole(Role.SALES.toString(), Role.ADMIN.toString())
+//////////////////////////////////////////////////////////////////////////////////////////////////
                         // USER
                         .requestMatchers(
                                 HttpMethod.GET,
@@ -134,16 +144,6 @@ public class WebSecurityConfig {
                                 String.format("%s/inventoryCheck/**", apiPrefix),
                                 String.format("%s/receipts/**", apiPrefix))
                         .hasAnyRole(Role.WAREHOUSE.toString(), Role.ADMIN.toString())
-//////////////////////////////////////////////////////////////////////////////////////////////////
-                        // SALES
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                String.format("%s/orders/getAllOrder", apiPrefix))
-                        .hasAnyRole(Role.SALES.toString(), Role.ADMIN.toString())
-                        .requestMatchers(
-                                HttpMethod.PUT,
-                                String.format("%s/orders/update/**", apiPrefix))
-                        .hasAnyRole(Role.SALES.toString(), Role.ADMIN.toString())
                         .anyRequest().authenticated();
                 });
         return http.build();

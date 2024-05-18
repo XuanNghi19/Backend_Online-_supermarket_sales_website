@@ -22,9 +22,13 @@ public class ProductImageResponse {
     private String imageUrl;
 
     public static ProductImageResponse fromProductImage(ProductImage productImage){
+        String imageUrl = "https://objectstorage.ap-singapore-1.oraclecloud.com/n/axegw7pib4cf/b/PXN_img/o/Products/" + (productImage.getImageUrl()).replaceAll(" ", "%20");
+        if(productImage.getImageUrl().contains("http")){
+            imageUrl = productImage.getImageUrl();
+        }
         return ProductImageResponse.builder()
             .id(productImage.getId())
-            .imageUrl("https://objectstorage.ap-singapore-1.oraclecloud.com/n/axegw7pib4cf/b/PXN_img/o/Products/" + (productImage.getImageUrl()).replaceAll(" ", "%20"))
+            .imageUrl(imageUrl)
             .build();
     }
 

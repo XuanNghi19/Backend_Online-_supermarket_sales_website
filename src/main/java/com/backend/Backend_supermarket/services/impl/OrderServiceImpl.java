@@ -97,7 +97,6 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public Page<SalesOrderResponse> getAllOrder(Long userId, int page, int pageSize) throws Exception {
-        userRepository.findById(userId).orElseThrow(()-> new Exception("Khong tim thay user voi id: " + userId));
         return orderRepository.findAllByUserId(
                 userId,
                 PageRequest.of(page - 1, pageSize)
@@ -106,9 +105,9 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public SalesOrderResponse changeStatusOrder(Long orderId, UpdateOrderDTO updateOrderDTO) throws Exception {
-        Order updateOrder = orderRepository.findById(orderId).orElseThrow(()-> new Exception("Khong tim thay user voi id: " + orderId));
+        Order updateOrder = orderRepository.findById(orderId).orElseThrow(()-> new Exception("Khong tim thay order voi id: " + orderId));
         if(!Objects.equals(updateOrderDTO.getPaymentStatus(), "")) updateOrder.setPaymentStatus(updateOrder.getPaymentStatus());
-        if(!Objects.equals(updateOrderDTO.getStatus(), "")) updateOrder.setPaymentStatus(updateOrderDTO.getStatus());
+        if(!Objects.equals(updateOrderDTO.getStatus(), "")) updateOrder.setStatus(updateOrderDTO.getStatus());
 
         return SalesOrderResponse.fromOrder(orderRepository.save(updateOrder));
     }
