@@ -2,21 +2,16 @@ package com.backend.Backend_supermarket.controllers;
 
 import java.util.List;
 
+import com.backend.Backend_supermarket.dtos.UpdateOrderDTO;
+import com.backend.Backend_supermarket.responses.*;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.backend.Backend_supermarket.dtos.OrderDTO;
-import com.backend.Backend_supermarket.responses.OrderResponse;
-import com.backend.Backend_supermarket.responses.ResponseData;
 import com.backend.Backend_supermarket.services.OrderService;
 
 import jakarta.validation.Valid;
@@ -92,6 +87,45 @@ public class OrderController {
         } catch (Exception e) {
             // TODO: handle exception
             return new ResponseData<>(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        }
+    }
+
+    @GetMapping("/getAllOrder")
+    public ResponseEntity<?> getAllOrder(
+            @RequestParam(value = "userId", required = false) Long userId,
+            @RequestParam("page") int page,
+            @RequestParam("pageSize") int pageSize
+    ){
+        try {
+            Page<SalesOrderResponse> salesOrderResponses = orderService.getAllOrder(userId, page, pageSize);
+            return ResponseEntity.ok().body(salesOrderResponses);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> changeStatusOrder(
+            @PathVariable("id") Long orderId,
+            @RequestBody @Valid UpdateOrderDTO updateOrderDTO,
+            BindingResult result
+    ) {
+        try {
+            if(result.hasErrors()){
+                // lấy ra danh sách lỗi
+                List<String> errorMessages = result.getFieldErrors()
+                        .stream()
+                        .map(FieldError::getDefaultMessage)
+                        .toList();
+                // trả về danh sách lỗi
+                return ResponseEntity.badRequest().body(errorMessages.toString());
+            }
+            SalesOrderResponse response = orderService.changeStatusOrder(orderId, updateOrderDTO);
+            return ResponseEntity.ok().body(response);
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }
 }

@@ -2,10 +2,15 @@ package com.backend.Backend_supermarket.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+import com.backend.Backend_supermarket.dtos.UpdateOrderDTO;
 import com.backend.Backend_supermarket.repositorys.*;
 import com.backend.Backend_supermarket.responses.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.backend.Backend_supermarket.components.JwtTokenUtils;
@@ -89,7 +94,25 @@ public class OrderServiceImpl implements OrderService{
             .toList();
         return responses;
     }
-    
+
+    @Override
+    public Page<SalesOrderResponse> getAllOrder(Long userId, int page, int pageSize) throws Exception {
+        userRepository.findById(userId).orElseThrow(()-> new Exception("Khong tim thay user voi id: " + userId));
+        return orderRepository.findAllByUserId(
+                userId,
+                PageRequest.of(page - 1, pageSize)
+        ).map(SalesOrderResponse::fromOrder);
+    }
+
+    @Override
+    public SalesOrderResponse changeStatusOrder(Long orderId, UpdateOrderDTO updateOrderDTO) throws Exception {
+        Order updateOrder = orderRepository.findById(orderId).orElseThrow(()-> new Exception("Khong tim thay user voi id: " + orderId));
+        if(!Objects.equals(updateOrderDTO.getPaymentStatus(), "")) updateOrder.setPaymentStatus(updateOrder.getPaymentStatus());
+        if(!Objects.equals(updateOrderDTO.getStatus(), "")) updateOrder.setPaymentStatus(updateOrderDTO.getStatus());
+
+        return SalesOrderResponse.fromOrder(orderRepository.save(updateOrder));
+    }
+
     @Transactional
     @Override
     public void deleteOrder(Long orderId) {

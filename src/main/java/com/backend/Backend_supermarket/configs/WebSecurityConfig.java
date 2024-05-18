@@ -138,16 +138,11 @@ public class WebSecurityConfig {
                         // SALES
                         .requestMatchers(
                                 HttpMethod.GET,
-                                String.format("%s/receipts/**", apiPrefix))
+                                String.format("%s/orders/getAllOrder", apiPrefix))
                         .hasAnyRole(Role.SALES.toString(), Role.ADMIN.toString())
                         .requestMatchers(
-                                HttpMethod.PUT)
-                        .hasAnyRole(Role.SALES.toString(), Role.ADMIN.toString())
-                        .requestMatchers(
-                                HttpMethod.POST)
-                        .hasAnyRole(Role.SALES.toString(), Role.ADMIN.toString())
-                        .requestMatchers(
-                                HttpMethod.DELETE)
+                                HttpMethod.PUT,
+                                String.format("%s/orders/update/**", apiPrefix))
                         .hasAnyRole(Role.SALES.toString(), Role.ADMIN.toString())
                         .anyRequest().authenticated();
                 });
