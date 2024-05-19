@@ -14,6 +14,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o FROM Order o WHERE o.user.id = :userId ORDER BY o.createdAt DESC")
     List<Order> getAllOrderByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT o FROM Order o WHERE (:userId IS NULL OR o.user.id = :userId) ORDER BY o.createdAt DESC")
+    @Query("SELECT o FROM Order o WHERE (:userId IS NULL OR o.user.id = :userId) AND o.active = true ORDER BY o.createdAt DESC")
     Page<Order> findAllByUserId(@Param("userId") Long userId, Pageable pageable);
 }
