@@ -53,12 +53,12 @@ public class ReceiptDetail {
             Receipt receipt,
             Product product
     ) {
-        return ReceiptDetail.builder()
-                .id(updateReceiptDetailDTO.getId())
-                .receipt(receipt)
-                .product(product)
-                .costOfProduct(updateReceiptDetailDTO.getCostOfProduct())
-                .quantity(updateReceiptDetailDTO.getQuantity())
-                .build();
+        ReceiptDetail receiptDetail = new ReceiptDetail();
+        receiptDetail.setId(updateReceiptDetailDTO.getId());
+        receiptDetail.setReceipt(receipt);
+        receiptDetail.setProduct(product);
+        receiptDetail.setCostOfProduct(updateReceiptDetailDTO.getCostOfProduct());
+        receiptDetail.setQuantity(updateReceiptDetailDTO.getQuantity());
+        return receiptDetail;
     }
 }
