@@ -54,12 +54,14 @@ public class InventoryCheckDetail {
             InventoryCheck inventoryCheck,
             Product product
     ) {
-        return InventoryCheckDetail.builder()
-                .inventoryCheck(inventoryCheck)
-                .product(product)
-                .actualInventory(updateInventoryCheckDetailDTO.getActualInventory())
-                .reasonMissing(updateInventoryCheckDetailDTO.getReasonMissing())
-                .note(updateInventoryCheckDetailDTO.getNote())
-                .build();
+        InventoryCheckDetail inventoryCheckDetail = new InventoryCheckDetail();
+        inventoryCheckDetail.setId(updateInventoryCheckDetailDTO.getId());
+        inventoryCheckDetail.setInventoryCheck(inventoryCheck);
+        inventoryCheckDetail.setProduct(product);
+        inventoryCheckDetail.setActualInventory(updateInventoryCheckDetailDTO.getActualInventory());
+        inventoryCheckDetail.setReasonMissing(updateInventoryCheckDetailDTO.getReasonMissing());
+        inventoryCheckDetail.setReasonMissing(updateInventoryCheckDetailDTO.getReasonMissing());
+        inventoryCheckDetail.setNote(updateInventoryCheckDetailDTO.getNote());
+        return inventoryCheckDetail;
     }
 }

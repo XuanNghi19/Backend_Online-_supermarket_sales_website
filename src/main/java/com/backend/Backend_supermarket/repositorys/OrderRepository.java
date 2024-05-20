@@ -2,6 +2,7 @@ package com.backend.Backend_supermarket.repositorys;
 
 import com.backend.Backend_supermarket.models.Order;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -16,4 +17,24 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT o FROM Order o WHERE (:userId IS NULL OR o.user.id = :userId) AND o.active = true ORDER BY o.createdAt DESC")
     Page<Order> findAllByUserId(@Param("userId") Long userId, Pageable pageable);
+
+    @Query("SELECT o FROM Order o WHERE o.createdAt BETWEEN :startDate AND :endDate ORDER BY o.createdAt DESC")
+    List<Order> findOrdersByCreatedAtBetween(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate
+    );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

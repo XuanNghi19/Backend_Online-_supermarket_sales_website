@@ -53,9 +53,13 @@ public class ReceiptServiceImpl implements ReceiptService {
 
         Receipt newReceipt = Receipt.fromReceiptDTO(receiptDTO, partner, user);
         newReceipt = receiptRepository.save(newReceipt);
+        Float totalMoney = 0f;
         for (var x : receiptDTO.getReceiptDetailDTOS()) {
             receiptDetailService.createReceiptDetail(x, newReceipt.getId());
+            totalMoney += x.getCostOfProduct();
         }
+        newReceipt.setTotalMoney(totalMoney);
+        newReceipt = receiptRepository.save(newReceipt);
 
         ReceiptResponse receiptResponse = ReceiptResponse.fromReceipt(newReceipt);
         receiptResponse.setReceiptDetailResponses(receiptDetailService.getAllReceiptDetailResponseByReceiptId(newReceipt.getId()));
@@ -71,17 +75,23 @@ public class ReceiptServiceImpl implements ReceiptService {
 
         Receipt updateReceipt = Receipt.fromUpdateReceiptDTO(receipt, updateReceiptDTO, partner, user);
         updateReceipt = receiptRepository.save(updateReceipt);
+        Float totalMoney = 0f;
         for (var x : updateReceiptDTO.getUpdateReceiptDetailDTOS()) {
             if (Objects.equals(x.getStatus(), "none")) {
+                totalMoney += x.getCostOfProduct();
                 continue;
             } else if (Objects.equals(x.getStatus(), "delete")) {
                 receiptDetailService.deleteReceiptDetail(x.getId());
             } else if (Objects.equals(x.getStatus(), "update")) {
                 receiptDetailService.updateReceiptDetail(x);
+                totalMoney += x.getCostOfProduct();
             } else if (Objects.equals(x.getStatus(), "create")) {
                 receiptDetailService.createReceiptDetail(x, updateReceipt.getId());
+                totalMoney += x.getCostOfProduct();
             }
         }
+        updateReceipt.setTotalMoney(totalMoney);
+        updateReceipt = receiptRepository.save(updateReceipt);
 
         if(Objects.equals(updateReceipt.getStatus(), "Đã nhập kho")) {
             List<ReceiptDetail> receiptDetailResponseList = receiptDetailService
@@ -101,7 +111,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     public void deleteReceipt(Long receiptId) throws Exception {
         Receipt receipt = receiptRepository.findById(receiptId)
                 .orElseThrow(() -> new Exception("Khong ton tai phieu nhap kho voi id " + receiptId));
-        if (Objects.equals(receipt.getStatus(), "Hủy bỏ")) {
+        if (!Objects.equals(receipt.getStatus(), "Hủy bỏ")) {
             throw new Exception("Chi co the xoa phieu nhap kho co trang thai Hủy bỏ");
         }
         receiptDetailService.deleteAllByReceiptId(receiptId);

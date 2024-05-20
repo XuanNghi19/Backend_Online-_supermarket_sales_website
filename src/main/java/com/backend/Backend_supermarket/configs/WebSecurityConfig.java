@@ -105,6 +105,7 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 HttpMethod.GET,
                                 String.format("%s/managementUser/**", apiPrefix),
+                                String.format("%s/statistics/**", apiPrefix),
                                 String.format("%s/partners/**", apiPrefix))
                         .hasAnyRole(Role.ADMIN.toString())
                         .requestMatchers(
