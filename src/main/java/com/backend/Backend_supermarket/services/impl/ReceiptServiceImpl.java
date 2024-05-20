@@ -4,6 +4,7 @@ import com.backend.Backend_supermarket.dtos.ReceiptDTO;
 import com.backend.Backend_supermarket.dtos.ReceiptDetailDTO;
 import com.backend.Backend_supermarket.dtos.UpdateReceiptDTO;
 import com.backend.Backend_supermarket.models.*;
+import com.backend.Backend_supermarket.repositorys.ProductRepository;
 import com.backend.Backend_supermarket.repositorys.ReceiptRepository;
 import com.backend.Backend_supermarket.responses.ReceiptDetailResponse;
 import com.backend.Backend_supermarket.responses.ReceiptResponse;
@@ -24,6 +25,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     private final PartnerService partnerService;
     private final ManagerUserService managerUserService;
     private final ReceiptDetailService receiptDetailService;
+    private final ProductRepository productRepository;
 
     @Override
     public List<ReceiptResponse> getAllReceipt() {
@@ -78,16 +80,16 @@ public class ReceiptServiceImpl implements ReceiptService {
         Float totalMoney = 0f;
         for (var x : updateReceiptDTO.getUpdateReceiptDetailDTOS()) {
             if (Objects.equals(x.getStatus(), "none")) {
-                totalMoney += x.getCostOfProduct();
+                totalMoney += x.getCostOfProduct() * x.getQuantity();
                 continue;
             } else if (Objects.equals(x.getStatus(), "delete")) {
                 receiptDetailService.deleteReceiptDetail(x.getId());
             } else if (Objects.equals(x.getStatus(), "update")) {
                 receiptDetailService.updateReceiptDetail(x);
-                totalMoney += x.getCostOfProduct();
+                totalMoney += x.getCostOfProduct() * x.getQuantity();
             } else if (Objects.equals(x.getStatus(), "create")) {
                 receiptDetailService.createReceiptDetail(x, updateReceipt.getId());
-                totalMoney += x.getCostOfProduct();
+                totalMoney += x.getCostOfProduct() * x.getQuantity();
             }
         }
         updateReceipt.setTotalMoney(totalMoney);
