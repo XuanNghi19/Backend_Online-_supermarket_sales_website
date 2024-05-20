@@ -111,7 +111,7 @@ public class ReceiptServiceImpl implements ReceiptService {
     public void deleteReceipt(Long receiptId) throws Exception {
         Receipt receipt = receiptRepository.findById(receiptId)
                 .orElseThrow(() -> new Exception("Khong ton tai phieu nhap kho voi id " + receiptId));
-        if (Objects.equals(receipt.getStatus(), "Hủy bỏ")) {
+        if (!Objects.equals(receipt.getStatus(), "Hủy bỏ")) {
             throw new Exception("Chi co the xoa phieu nhap kho co trang thai Hủy bỏ");
         }
         receiptDetailService.deleteAllByReceiptId(receiptId);

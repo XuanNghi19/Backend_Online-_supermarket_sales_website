@@ -102,7 +102,7 @@ public class InventoryCheckServiceImpl implements InventoryCheckService {
     public void deleteInventoryCheck(Long inventoryCheckId) throws Exception {
         InventoryCheck inventoryCheck = inventoryCheckRepository.findById(inventoryCheckId)
                 .orElseThrow(() -> new Exception("Khong ton tai phieu kiem kho voi " + inventoryCheckId));
-        if (Objects.equals(inventoryCheck.getStatus(), "Hủy bỏ")) {
+        if (!Objects.equals(inventoryCheck.getStatus(), "Hủy bỏ")) {
             throw new Exception("Chi co the xoa phieu co trang thai Hủy bỏ");
         }
         inventoryCheckDetailService.deleteAllByInventoryCheckId(inventoryCheckId);
